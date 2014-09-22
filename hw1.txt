@@ -16,3 +16,5 @@ Validation is that we use to evaluate the software that is correspond to what we
 
 In short, "verification" tries to do thing right, and "validation" tries to do the right thing.
 
+Q: Which programming languages are you expert or interested in?
+A: Javascript, Java.
