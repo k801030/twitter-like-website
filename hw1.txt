@@ -6,7 +6,6 @@ Please answer the following questions:
 Q: What is your name?
 A: 中文名字：李哲維
    English Name: Vison
-   你也可以叫我V神，雖然我沒有特別喜歡 ㄏㄏ
 
 Q: What is the difference between validation and verification?
 A: 
