@@ -17,3 +17,6 @@ In short, "verification" tries to do thing right, and "validation" tries to do t
 
 Q: Which programming languages are you expert or interested in?
 A: Javascript, Java.
+Q: What is your favorite programming language for software development?
+A:
+
