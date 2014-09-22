@@ -4,10 +4,15 @@ Please answer the following questions:
 ** IdentiToken:CdOdkUXt. Do NOT change this line. **
 
 Q: What is your name?
-A:
-
+A: 中文名字：李哲維
+   English Name: Vison
+   你也可以叫我V神，雖然我沒有特別喜歡 ㄏㄏ
 
 Q: What is the difference between validation and verification?
-A:
+A: 
 
+Verification is that we use to evaluate the software that is correspond to what we define in the software development life cicle.
+Validation is that we use to evaluate the software that is correspond to what we need or be able to slove our problem in the software development life cicle. 
+
+In short, "verification" tries to do thing right, and "validation" tries to do the right thing.
 
