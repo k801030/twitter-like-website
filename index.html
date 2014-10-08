@@ -1,0 +1,24 @@
+<html>
+<head>
+	<script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+</head>
+<body>
+	<form>
+		<input id="m">
+	</form>
+	<div id="messages"></div>
+	<script>
+	var socket = io.connect('http://localhost:3005');;
+	$('form').submit(function(){
+		socket.emit('post_topic', $('#m').val());
+		$('#m').val('');
+		return false;
+	});
+
+	socket.on('update',function(data){
+		$('#messages').append($('<li>').text(data));
+	});
+	</script>
+</body>
+</html>
