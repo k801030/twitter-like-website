@@ -35,6 +35,12 @@ io.on('connection', function(socket){
 		io.emit('update',data);
 	});
 
+	socket.on('init',function(data){
+		var member_id = data;
+				
+		get_bundle_of_data(get_bundle_of_data_Completed);
+	});
+
 });
 
 http.listen(3005, function(){
@@ -53,8 +59,7 @@ function new_comment(topic_id, content,member){
 	conn.query('INSERT INTO Comment(Topic_ID, Comment_Content, Member_ID) values("'+topic_id+'","'+content+'","'+member+'")');
 }
 
-function get_bundle_of_data(ready_to_send){
-
+function get_bundle_of_data(get_bundle_of_data_Completed){
 	conn.query('SELECT * FROM Topic',function(error, rows, fields){
 		if(error){
 			throw error;
@@ -65,6 +70,7 @@ function get_bundle_of_data(ready_to_send){
 		dataReceived.total = topics.length;
 
 		for(var i=0; i<topics.length; i++){
+			topics[i].comments = [];
 			conn.query('SELECT * FROM Comment where Topic_ID = '+ topics[i].Topic_ID+' ORDER BY Comment_PostTime', function(error, rows, fields){
 				if(error){
 					throw error;
@@ -73,15 +79,22 @@ function get_bundle_of_data(ready_to_send){
 				if(comments.length == 0){
 					return;
 				}
-				id = comments[0].Topic_ID;
-				topics[id].comments = [];
+
+				// find correspond id and append its comments.
+				var id;
+				for(var j=0; j<topics.length; j++)
+					if(comments[0].Topic_ID == topics[j].Topic_ID){
+						id = j;
+						break;
+					}
 
 				for(var j=0; j<comments.length; j++)
 					topics[id].comments.push(comments[j]);
 
+				// callback when data received completely.
 				dataReceived.get();
 				if(dataReceived.check)
-					ready_to_send(topics);
+					get_bundle_of_data_Completed(topics);
 			});
 		};
 		
@@ -101,17 +114,10 @@ function DataReceived(){
 	};
 }
 
-function get_part_of_data(){
 
+function get_bundle_of_data_Completed(data){
+	io.emit('a123',data);
+	console.log("HI");
 }
 
-function ready_to_send(topics){
-	console.log(topics);
-
-}
-
-var topics;
-get_bundle_of_data(function(){
-	ready_to_send(topics);
-});
 

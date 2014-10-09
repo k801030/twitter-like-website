@@ -2,16 +2,39 @@
 <head>
 	<script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<link rel="sheetstyle" href="css/main.css" />
 </head>
+
 <body>
 	<form>
 		<input id="m">
 	</form>
 	<div id="messages"></div>
+		
+	<div class="main_board">
+
+		</div class="topic">
+			<div class="profile">profile</div>
+			<div class="content">content</div>
+			<div class="comment">comment</div>
+		<div>
+		
+	</div>
 	<script>
 	var socket = io.connect('http://localhost:3005');;
+	var my_id = 'a123';
+	socket.emit('init',my_id);
+	socket.on(my_id,function(data){
+		for(var i=0; i<data.length; i++){
+			console.log(data[i].Topic_Content);
+			
+			for(var j=0; j<data[i].comments.length; j++)
+				console.log("--- "+data[i].comments[j].Comment_Content);
+		}
+	})
+
 	$('form').submit(function(){
-		socket.emit('post_topic', $('#m').val());
+		socket.emit('new_topic', $('#m').val());
 		$('#m').val('');
 		return false;
 	});
