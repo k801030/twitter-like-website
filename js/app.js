@@ -7,35 +7,46 @@
 			//this.data = _data;
 		}
 		var getData = function(obj){
-			if(_data < 10){
+			if(_data == null){
 				$timeout(getData,100);
-				$scope.data ++;
 				return;
 			}
 
 			$scope.data = _data;
-			console.log(_data);
+			
 		}
 		
-		$timeout(getData,1000);
+		$timeout(getData,200);
+
+		$scope.formattedTime = function(timestamp){
+			var d = new Date(timestamp);
+
+			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+			var year = d.getFullYear();
+			var month = months[d.getMonth()-1];
+			var date = d.getDate();
+			var hour = d.getHours();
+			var noon = (hour < 12) ? 'am' : 'pm' ;
+			hour = (hour < 12) ? hour : hour - 12;
+			hour = (hour < 10 ) ? '0'+hour : hour;
+			var min = d.getMinutes();
+			min = (min < 10) ? '0'+min : hour;
+			var sec = d.getSeconds();
+
+			// sample format: 8, Sep, 2014 at 10:07pm
+			var time = date + ", " + month + ", " + year + " at " + hour + ":" + min + noon;
+			return time;
+		}
 		
 	});
 
-	function get_data(obj){
-		if(_data === null){
-			setTimeout(get_data, 50);
-			return;
-		}
-		return _data;
-	}
+
 	var socket = io.connect('http://localhost:3005');;
 	var my_id = 'a123';
 	socket.emit('init',my_id);
 	
 	socket.on(my_id,function(data){
 		_data = data;
-		console.log('get');
-		console.log(ContentCtrl);
 		ContentCtrl.data = _data;
 	});
 

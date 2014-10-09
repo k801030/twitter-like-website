@@ -27,6 +27,7 @@
 		<div class="col-sm-12 topic" ng-repeat="topic in data">
 			<div class="col-sm-2 profile">profile</div>
 			<div class="col-sm-9">
+			<div class="time">{{formattedTime(topic.Topic_PostTime)}}</div>
 			<div class="content">{{topic.Topic_Content}}</div>
 			<div class="comment" ng-repeat="comment in topic.comments">{{comment.Comment_Content}}</div>
 		</div>
