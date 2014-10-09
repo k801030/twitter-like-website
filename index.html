@@ -1,47 +1,43 @@
-<html>
+<!DOCTYPE html>
+<html ng-app="forum">
 <head>
 	<script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-	<link rel="sheetstyle" href="css/main.css" />
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/main.css" />
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/controllers.js"></script>
+	<script type="text/javascript" src="bower_components/angular-socket-io/socket.js"></script>
+
 </head>
 
 <body>
+<div class="container">
+
 	<form>
 		<input id="m">
 	</form>
+
 	<div id="messages"></div>
 		
-	<div class="main_board">
+	<div class="main_board" ng-controller="ContentCtrl as content">
+	<button ng-click="content.update()"> Update </button>
+	
+		<div class="col-sm-12 topic" ng-repeat="topic in content.data">
 
-		</div class="topic">
-			<div class="profile">profile</div>
-			<div class="content">content</div>
-			<div class="comment">comment</div>
-		<div>
+			<div class="col-sm-2 profile">profile</div>
+			<div class="col-sm-9">
+			<div class="content">{{topic.Topic_Content}}</div>
+			<div class="comment" ng-repeat="comment in topic.comments">{{comment.Comment_Content}}</div>
+		</div>
 		
 	</div>
+
+</div>
 	<script>
-	var socket = io.connect('http://localhost:3005');;
-	var my_id = 'a123';
-	socket.emit('init',my_id);
-	socket.on(my_id,function(data){
-		for(var i=0; i<data.length; i++){
-			console.log(data[i].Topic_Content);
-			
-			for(var j=0; j<data[i].comments.length; j++)
-				console.log("--- "+data[i].comments[j].Comment_Content);
-		}
-	})
-
-	$('form').submit(function(){
-		socket.emit('new_topic', $('#m').val());
-		$('#m').val('');
-		return false;
-	});
-
-	socket.on('update',function(data){
-		$('#messages').append($('<li>').text(data));
-	});
+	
+	
 	</script>
 </body>
 </html>
