@@ -15,3 +15,11 @@
 .comment, .content{
 	word-wrap: break-word;
 }
+
+.topic {
+	background-color: #95e9c0;
+	margin: 15px 0;
+}
+.profile, .content, .comment {
+	background-color: #fff;
+}
