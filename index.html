@@ -21,11 +21,10 @@
 
 	<div id="messages"></div>
 		
-	<div class="main_board" ng-controller="ContentCtrl as content">
-	<button ng-click="content.update()"> Update </button>
+	<div class="main_board" ng-controller="ContentCtrl">
 	
-		<div class="col-sm-12 topic" ng-repeat="topic in content.data">
 
+		<div class="col-sm-12 topic" ng-repeat="topic in data">
 			<div class="col-sm-2 profile">profile</div>
 			<div class="col-sm-9">
 			<div class="content">{{topic.Topic_Content}}</div>
