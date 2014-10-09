@@ -26,13 +26,13 @@ io.on('connection', function(socket){
 	socket.on('new_topic',function(data){
 		console.log('message:'+data);
 		new_topic(data,"id");
-		io.emit('update',data);
+		get_topic();
 	});
 
 	socket.on('new_comment',function(data){
 		console.log('message:'+data);
-		new_topic(data,"id");
-		io.emit('update',data);
+		
+		io.emit('update',"");
 	});
 
 	socket.on('init',function(data){
@@ -59,15 +59,30 @@ function new_comment(topic_id, content,member){
 	conn.query('INSERT INTO Comment(Topic_ID, Comment_Content, Member_ID) values("'+topic_id+'","'+content+'","'+member+'")');
 }
 
+function get_topic(){
+	conn.query('SELECT * FROM Topic ORDER BY Topic_PostTime DESC LIMIT 1',function(error, rows, fields){
+		if(error){
+			throw error;
+		}
+		get_topic_completed(rows[0]);
+	});
+}
+
+function get_topic_completed(data){
+	io.emit('update:topic',data);
+}
+
+
 function get_bundle_of_data(member_id,get_bundle_of_data_Completed){
-	conn.query('SELECT * FROM Topic',function(error, rows, fields){
+	conn.query('SELECT * FROM Topic ORDER BY Topic_PostTime DESC',function(error, rows, fields){
 		if(error){
 			throw error;
 		}
 		topics = rows;
 		var dataReceived = new DataReceived();
 		dataReceived.total = topics.length;
-
+		console.log(dataReceived.total);
+		console.log(dataReceived.received);
 		for(var i=0; i<topics.length; i++){
 			topics[i].comments = [];
 			conn.query('SELECT * FROM Comment where Topic_ID = '+ topics[i].Topic_ID+' ORDER BY Comment_PostTime', function(error, rows, fields){
@@ -92,6 +107,8 @@ function get_bundle_of_data(member_id,get_bundle_of_data_Completed){
 
 				// callback when data received completely.
 				dataReceived.get();
+				console.log(dataReceived.total);
+				console.log(dataReceived.received);
 				if(dataReceived.check)
 					get_bundle_of_data_Completed(member_id,topics);
 			});
