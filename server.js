@@ -34,7 +34,6 @@ function handleDisconnect(){
 
 handleDisconnect();
 
-console.log(new Date().getTime());
 // socket.io
 var app = require('express')();
 var http = require('http').Server(app);
@@ -72,8 +71,7 @@ http.listen(3005, function(){
  *
  */
 function new_topic(content,member){
-	var time = new Date();
-	conn.query('INSERT INTO Topic(Topic_Content, Member_ID,,Topic_PostTime) values("'+content+'","'+member+'","'+time+'"")');
+	conn.query('INSERT INTO Topic(Topic_Content, Member_ID) values("'+content+'","'+member+'")');
 }
 
 function new_comment(topic_id, content,member){
@@ -112,6 +110,7 @@ function get_bundle_of_data(member_id,get_bundle_of_data_Completed){
 				}
 				comments = rows;
 				if(comments.length == 0){
+					dataReceived.get(); // finished this data
 					return;
 				}
 
@@ -127,12 +126,11 @@ function get_bundle_of_data(member_id,get_bundle_of_data_Completed){
 					topics[id].comments.push(comments[j]);
 
 				// callback when data received completely.
-				dataReceived.get();
-				console.log(dataReceived.total);
-				console.log(dataReceived.received);
-				if(dataReceived.check)
-					get_bundle_of_data_Completed(member_id,topics);
+				dataReceived.get(); // finished this data
+				
 			});
+			if(dataReceived.check)
+					get_bundle_of_data_Completed(member_id,topics);
 		};
 		
 	});
