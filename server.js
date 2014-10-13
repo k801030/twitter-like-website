@@ -1,19 +1,37 @@
 // load mysql module
 var mysql = require('mysql');
 
-// create connection
-var conn = mysql.createConnection({
+var db_config = {
 	host: 'sdm2.im.ntu.edu.tw',
 	user: 'r03725043',
 	password: 'CdOdkUXt',
 	database: 'r03725043',
 	port: 3306
-});
-// db connection
-var db_client = conn.connect(function(){
-	console.log('db connected.');
-});
+};
 
+function handleDisconnect(){
+	// create connection
+	var conn = mysql.createConnection(db_config);
+	// db connection
+	var db_client = conn.connect(function(err){
+		if(err){
+			console.log('error when connecting to db:', err);
+			setTimeout();
+		}
+		console.log('db connected.');
+
+		conn.on('error', function(err) {
+		    console.log('db error', err);
+		    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+		      handleDisconnect();                         // lost due to either server restart, or a
+		    } else {                                      // connnection idle timeout (the wait_timeout
+		      throw err;                                  // server variable configures this)
+		    }
+		});
+	});
+}
+
+handleDisconnect();
 
 // socket.io
 var app = require('express')();
