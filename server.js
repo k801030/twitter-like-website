@@ -9,9 +9,10 @@ var db_config = {
 	port: 3306
 };
 
+var conn;
 function handleDisconnect(){
 	// create connection
-	var conn = mysql.createConnection(db_config);
+	conn = mysql.createConnection(db_config);
 	// db connection
 	var db_client = conn.connect(function(err){
 		if(err){
@@ -33,6 +34,7 @@ function handleDisconnect(){
 
 handleDisconnect();
 
+console.log(new Date().getTime());
 // socket.io
 var app = require('express')();
 var http = require('http').Server(app);
