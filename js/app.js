@@ -20,6 +20,7 @@
 			}
 			$scope.data = _data;
 			_dataLength = _data.length;
+			$timeout(autoUpdate,2000);
 		}
 		var autoUpdate = function(){
 			if(_dataLength != _data.length){
@@ -33,7 +34,7 @@
 		}
 
 		$timeout(init,200);
-		$timeout(autoUpdate,2000);
+		
 
 		$scope.formattedTime = function(timestamp){
 			var d = new Date(timestamp);
@@ -67,7 +68,8 @@
 	});
 
 	socket.on('update:topic',function(data){
-		_data.unshift(data[0]);  // insert to top
+		
+		_data.unshift(data);  // insert to top
 	});
 
 	
