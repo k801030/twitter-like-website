@@ -16,7 +16,7 @@
 <div class="container" ng-controller="ContentCtrl">
 
 	<form ng-submit='new_topic()'>
-		<input id="m" ng-model="topic">
+		<input id="input-topic" ng-model="topic">
 	</form>
 
 	<div class="col-sm-12 topic" ng-repeat="topic in data">
@@ -25,6 +25,7 @@
 		<div class="time">{{formattedTime(topic.Topic_PostTime)}}</div>
 		<div class="content">{{topic.Topic_Content}}</div>
 		<div class="comment" ng-repeat="comment in topic.comments">{{comment.Comment_Content}}</div>
+		<input class="input-comment" >
 	</div>
 	
 
