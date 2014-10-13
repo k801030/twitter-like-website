@@ -52,7 +52,8 @@ http.listen(3005, function(){
  *
  */
 function new_topic(content,member){
-	conn.query('INSERT INTO Topic(Topic_Content, Member_ID) values("'+content+'","'+member+'")');
+	var time = new Date();
+	conn.query('INSERT INTO Topic(Topic_Content, Member_ID,,Topic_PostTime) values("'+content+'","'+member+'","'+time+'"")');
 }
 
 function new_comment(topic_id, content,member){
