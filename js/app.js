@@ -8,9 +8,27 @@
 		$scope.last;
 		$scope.test = [{'tp':'4','cc':'3'}];
 		$scope.test.push({'cc':'6'});
-		$scope.new_topic = function(){
-			if(!!$scope.topic)
-				socket.emit('new_topic', $scope.topic);
+		$scope.post_topic = function(){
+			if($scope.topic){
+				$.ajax({
+					url:'http://localhost:8888',
+					type: 'post',
+					cache: false,
+					dataType: 'jsonp',
+					jsonpCallback: "_testcb",
+					data:{
+						type: 'post_topic',
+						content: $scope.topic
+					},
+					error: function(jqxhr, textStatus, errorThrown){
+						console.log('error:'+textStatus);
+					},
+					success: function(data){
+						var obj = JSON.parse(data);
+						console.log('post sucessful:'+obj.timestamp);
+					}	
+				});
+			}
 			$scope.topic = '';
 		}
 		var init = function(){

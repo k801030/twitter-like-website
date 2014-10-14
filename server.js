@@ -152,7 +152,28 @@ function DataReceived(){
 
 function get_bundle_of_data_Completed(id,data){
 	io.emit(id,data);
-	console.log("HI");
+}
+
+////////     HTTP      //////////
+
+var http = require('http');
+var url = require('url');
+var queryString = require('querystring');
+http.createServer(processRequest).listen(8888);
+
+function processRequest(req, res){
+	var myUrl = url.parse( req.url );
+	var obj = queryString.parse( myUrl.query);
+	
+	switch(obj.type){
+		case 'post_topic':
+			new_topic(obj.content,"");
+			break;
+
+	}
+
+	res.writeHead(200, {'Content-Type': 'text/javascript'});
+	res.end('_testcb(\'{"timestamp": "'+new Date().getime()+'"}\')');
 }
 
 
