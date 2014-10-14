@@ -16,6 +16,7 @@
 		var init = function(){
 			if(_data == null){
 				$timeout(init,100);
+
 				return;
 			}
 			$scope.data = _data;
@@ -68,7 +69,8 @@
 	});
 
 	socket.on('update:topic',function(data){
-		
+		if(_data == null)
+			_data = [];
 		_data.unshift(data);  // insert to top
 	});
 

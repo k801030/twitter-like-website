@@ -1,0 +1,3 @@
+function ContentCtrl($scope, socket){
+	
+}
