@@ -213,7 +213,7 @@ app.get('/css/bootstrap.css',function(req, res){
 		if(err){
 			throw err;
 		}
-		res.writeHeader(200, {"Content-Type": "text/html"});
+		res.writeHeader(200, {"Content-Type": "text/css"});
 		res.write(html);
 		res.end();
 	})
@@ -224,7 +224,7 @@ app.get('/css/bootstrap.css.map',function(req, res){
 		if(err){
 			throw err;
 		}
-		res.writeHeader(200, {"Content-Type": "text/html"});
+		res.writeHeader(200, {"Content-Type": "text/css"});
 		res.write(html);
 		res.end();
 	})
@@ -235,7 +235,7 @@ app.get('/css/main.css',function(req, res){
 		if(err){
 			throw err;
 		}
-		res.writeHeader(200, {"Content-Type": "text/html"});
+		res.writeHeader(200, {"Content-Type": "text/css"});
 		res.write(html);
 		res.end();
 	})
@@ -248,7 +248,7 @@ app.get('/js/app.js',function(req, res){
 		if(err){
 			throw err;
 		}
-		res.writeHeader(200, {"Content-Type": "text/html"});
+		res.writeHeader(200, {"Content-Type": "text/javascript"});
 		res.write(html);
 		res.end();
 	})
