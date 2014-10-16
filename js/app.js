@@ -2,7 +2,7 @@
 	var app = angular.module('forum',[]);
 	var _data = [];
 	var _dataLength = 0;
-	var serverUrl = 'http://ntufakebook.herokuapp.com/';
+	var serverUrl = 'http://localhost:3000/';
 	var _timestamp = 0;
 	app.controller('ContentCtrl',function($scope,$timeout){
 		$scope.data = [];
@@ -79,7 +79,7 @@
 			});
 		}
 
-		var autoUpdate = function(){
+		var autoUpdate_topic = function(){
 			
 			$.ajax({
 					url: serverUrl+'autoUpdate/topic',
@@ -97,11 +97,13 @@
 							insertData('topic',data.data);
 							
 						}
-						//console.log("最後一次更新時間:"+new Date(timestamp));
-						//console.log("最後一PO:"+data.data);
-						
+						$timeout(autoUpdate_topic,2000);
 					}
 			});
+		}
+
+
+		var autoUpdate_comment = function(){
 
 			$.ajax({
 					url: serverUrl+'autoUpdate/comment',
@@ -117,31 +119,18 @@
 						if(data.data){
 							_timestamp = data.timestamp;
 							insertData('comment',data.data);
-										
 						}
-						//console.log("最後一次更新時間:"+new Date(timestamp));
-						//console.log("最後一PO:"+data.data);
-						
+						$timeout(autoUpdate_comment,2000);
 					}
 			});
 
-			/*if(_dataLength != _data.length){
-				//new_data[i].comments = []; // notice:  server.js:87 
-				//_data.push(new_data[i]);
-				$scope.data = _data;
-				_dataLength = _data.length;
-			}
-			new_data = [];
-			console.log('auto:'+$scope.data);*/
-			$timeout(autoUpdate,5000);
 		}
-
 		$scope.formattedTime = function(timestamp){
 			var d = new Date(timestamp);
 
 			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 			var year = d.getFullYear();
-			var month = months[d.getMonth()-1];
+			var month = months[d.getMonth()];
 			var date = d.getDate();
 			var hour = d.getHours();
 			var noon = (hour < 12) ? 'am' : 'pm' ;
@@ -209,8 +198,8 @@
 
 		// execution
 		init();
-		autoUpdate();
-		
+		autoUpdate_topic();
+		autoUpdate_comment();
 	});
 
 
