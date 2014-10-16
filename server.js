@@ -34,37 +34,6 @@ function handleDisconnect(){
 
 handleDisconnect();
 
-// socket.io
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io').listen(http);
-
-io.on('connection', function(socket){
-	console.log('a user connected.');
-
-	socket.on('new_topic',function(data){
-		console.log('message:'+data);
-		new_topic(data,"id");
-		get_topic();
-	});
-
-	socket.on('new_comment',function(data){
-		console.log('message:'+data);
-		
-		io.emit('update',"");
-	});
-
-	socket.on('init',function(data){
-		var member_id = data;
-				
-		get_bundle_of_data(member_id,get_bundle_of_data_Completed);
-	});
-
-});
-
-http.listen(3005, function(){
-	console.log('listening on *.3005');
-});
 
 /* 
  * db function
@@ -79,66 +48,16 @@ function insert_topic(content,member){
 	});
 }
 
-function new_comment(topic_id, content,member){
-	conn.query('INSERT INTO Comment(Topic_ID, Comment_Content, Member_ID) values("'+topic_id+'","'+content+'","'+member+'")');
-}
-
-function get_topic(){
-	conn.query('SELECT * FROM Topic ORDER BY Topic_PostTime DESC LIMIT 1',function(error, rows, fields){
+function insert_comment(topic_id, content,member){
+	conn.query('INSERT INTO Comment(Topic_ID, Comment_Content, Member_ID) values("'+topic_id+'","'+content+'","'+member+'")',function(error, rows, fields){
 		if(error){
+			console.log(error);
 			throw error;
 		}
-		get_topic_completed(rows[0]);
 	});
 }
 
-function get_topic_completed(data){
-	io.emit('update:topic',data);
-}
 
-
-function get_bundle_of_data(member_id,get_bundle_of_data_Completed){
-	conn.query('SELECT * FROM Topic ORDER BY Topic_PostTime DESC',function(error, rows, fields){
-		if(error){
-			throw error;
-		}
-		topics = rows;
-		var dataReceived = new DataReceived();
-		dataReceived.total = topics.length;
-		for(var i=0; i<topics.length; i++){
-			topics[i].comments = [];
-			conn.query('SELECT * FROM Comment where Topic_ID = '+ topics[i].Topic_ID+' ORDER BY Comment_PostTime', function(error, rows, fields){
-				if(error){
-					throw error;
-				}
-				comments = rows;
-				if(comments.length == 0){
-					dataReceived.get(); // finished this data
-					return;
-				}
-
-				// find correspond id and append its comments.
-				var id;
-				for(var j=0; j<topics.length; j++)
-					if(comments[0].Topic_ID == topics[j].Topic_ID){
-						id = j;
-						break;
-					}
-
-				for(var j=0; j<comments.length; j++)
-					topics[id].comments.push(comments[j]);
-
-				// callback when data received completely.
-				dataReceived.get(); // finished this data
-				
-			});
-			if(dataReceived.check)
-					get_bundle_of_data_Completed(member_id,topics);
-		};
-		
-	});
-
-}
 
 function DataReceived(){
 	this.total =  0;
@@ -154,9 +73,6 @@ function DataReceived(){
 }
 
 
-function get_bundle_of_data_Completed(id,data){
-	io.emit(id,data);
-}
 
 /////
 var allowCrossDomain = function(req, res, next) {
@@ -202,10 +118,14 @@ app.post('/init',function(req, res){
 						if(error){
 							throw error;
 						}
+
 						comments = rows;
 						if(comments.length == 0){
 							dataReceived.get(); // finished this data
-							
+							if(dataReceived.check()){
+								var topicsString = JSON.stringify(topics, null, 2);
+								res.send({data:topics,timestamp: getTimestamp()});
+							}	
 							return;
 						}
 
@@ -222,20 +142,28 @@ app.post('/init',function(req, res){
 
 						// callback when data received completely.
 						dataReceived.get(); // finished this data
-						
+						if(dataReceived.check()){
+							var topicsString = JSON.stringify(topics, null, 2);
+							res.send({data:topics,timestamp: getTimestamp()});
+						}
 					});
 				};
-				if(dataReceived.check){
-					var topicsString = JSON.stringify(topics, null, 2);
-					res.send({data:topics,timestamp: getTimestamp()});
-				}
+				
 			});
 });
 
 app.post('/post',function(req, res){
 	var data = req.body;
-	insert_topic(data.text,"anonymous");
-
+	switch(data.type){
+		case 'topic':
+			insert_topic(data.text,"anonymous");
+			break;
+		case 'comment':
+			insert_comment(data.topic_id,data.text,"anonymous");
+			break;
+	}
+	
+	
 	//res.send();
 });
 
@@ -251,7 +179,6 @@ app.post('/autoUpdate',function(req, res){
 		}
 		if(rows.length)
 			sendData = rows;
-		console.log(rows.length);
 		
 		res.send({data:sendData ,timestamp: getTimestamp()});
 	});
@@ -261,77 +188,5 @@ app.post('/autoUpdate',function(req, res){
 app.listen(3000);
 
 
-
-
-
-////////     HTTP      //////////
-
-var http = require('http');
-var url = require('url');
-var queryString = require('querystring');
-http.createServer(processRequest).listen(8888);
-
-function processRequest(req, res){
-	var myUrl = url.parse( req.url );
-	var obj = queryString.parse( myUrl.query);
-	
-	res.writeHead(200, {'Content-Type': 'text/javascript'});
-
-	switch(obj.type){
-		case 'post_topic':
-			new_topic(obj.content,"");
-			res.end('_testcb(\'{"timestamp": "'+new Date().getTime()+'"}\')');
-			break;
-		case 'init':
-			conn.query('SELECT * FROM Topic ORDER BY Topic_PostTime DESC',function(error, rows, fields){
-				if(error){
-					throw error;
-				}
-				topics = rows;
-				var dataReceived = new DataReceived();
-				dataReceived.total = topics.length;
-				console.log(dataReceived.total);
-				console.log(dataReceived.received);
-				for(var i=0; i<topics.length; i++){
-					topics[i].comments = [];
-					conn.query('SELECT * FROM Comment where Topic_ID = '+ topics[i].Topic_ID+' ORDER BY Comment_PostTime', function(error, rows, fields){
-						if(error){
-							throw error;
-						}
-						comments = rows;
-						if(comments.length == 0){
-							dataReceived.get(); // finished this data
-							if(dataReceived.check){
-								var topicsString = JSON.stringify(topics, null, 2);
-								res.json({user:'hi'});
-							}
-							return;
-						}
-
-						// find correspond id and append its comments.
-						var id;
-						for(var j=0; j<topics.length; j++)
-							if(comments[0].Topic_ID == topics[j].Topic_ID){
-								id = j;
-								break;
-							}
-
-						for(var j=0; j<comments.length; j++)
-							topics[id].comments.push(comments[j]);
-
-						// callback when data received completely.
-						dataReceived.get(); // finished this data
-						if(dataReceived.check){
-								var topicsString = JSON.stringify(topics, null, 2);
-								res.end('{"eee":dd}');
-							}
-					});
-				};
-				
-			});
-			break;
-	}
-	
-}
 
 

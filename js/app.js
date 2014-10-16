@@ -7,10 +7,8 @@
 	app.controller('ContentCtrl',function($scope,$timeout){
 		$scope.data = [];
 		$scope.topic = '';
-		$scope.last;
-		$scope.test = [{'tp':'4','cc':'3'}];
-		$scope.test.push({'cc':'6'});
-		$scope.post_topic = function(){
+		$scope.comment = [];
+		$scope.post_topic = function(topic){
 			if($scope.topic){
 				$.ajax({
 					url: serverUrl+'post',
@@ -26,12 +24,39 @@
 					},
 					success: function(data){
 						var obj = JSON.parse(data);
-						console.log('post sucessful:'+obj.timestamp);
+						//console.log('post sucessful:'+obj.timestamp);
 					}	
 				});
 			}
 			$scope.topic = '';
 		}
+
+		$scope.post_comment = function(id,comment){
+			$scope.comment[id] = comment;
+			if($scope.comment[id]){
+				$.ajax({
+					url: serverUrl+'post',
+					type: 'post',
+					cache: false,
+					dataType: 'json',
+					data: {
+						type: 'comment',
+						topic_id: id,
+						text: $scope.comment[id]
+					},
+					error: function(jqxhr, textStatus, errorThrown){
+						console.log('error:'+textStatus);
+					},
+					success: function(data){
+						var obj = JSON.parse(data);
+						//console.log('post sucessful:'+obj.timestamp);
+					}	
+				});
+			}
+
+			$scope.comment[id] = '';
+		}
+
 		var init = function(){
 			$.ajax({
 					url: serverUrl+'init',
@@ -69,8 +94,9 @@
 					success: function(data){
 						if(data.data){
 							_timestamp = data.timestamp;
-							console.log(data.data[0]);
-							$scope.data.unshift(data.data[0]);
+							console.log(data.data[data.data.length-1]);
+							insertData(data.data);
+							
 						}
 						//console.log("最後一次更新時間:"+new Date(timestamp));
 						//console.log("最後一PO:"+data.data);
@@ -86,24 +112,8 @@
 			}
 			new_data = [];
 			console.log('auto:'+$scope.data);*/
-			$timeout(autoUpdate,2000);
+			$timeout(autoUpdate,500);
 		}
-
-
-		var go = function(){
-		
-				$scope.data = _data;
-				$scope.length = _dataLength;
-				console.log(_data);
-
-			
-			$scope.shit += "2";
-			console.log('go');
-			//$timeout(go,200);
-		}
-
-		init();
-		autoUpdate();
 
 		$scope.formattedTime = function(timestamp){
 			var d = new Date(timestamp);
@@ -124,24 +134,32 @@
 			var time = date + ", " + month + ", " + year + " at " + hour + ":" + min + noon;
 			return time;
 		}
+
+		var insertData = function(data){
+			for(var i=0; i<data.length; i++){
+				var matchFlag = 0;
+				for(var j=0;j<$scope.data.length; j++){
+					if($scope.data[j].Topic_ID == data[i].Topic_ID){	
+						$scope.data[j] = data[i];
+						matchFlag = 1;
+						break;
+					}
+				}
+				if(!matchFlag){
+					$scope.data.unshift(data[i]);
+				}
+			}
+
+		}
+
+		// execution
+		init();
+		autoUpdate();
 		
 	});
 
 
-	var socket = io.connect('http://localhost:3005');;
-	var my_id = 'a123';
-	socket.emit('init',my_id);
 	
-	socket.on(my_id,function(data){
-		_data = data;
-	});
-
-	socket.on('update:topic',function(data){
-		if(_data == null)
-			_data = [];
-		_data.unshift(data);  // insert to top
-	});
-
 	
 
 })();
