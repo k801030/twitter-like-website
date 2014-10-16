@@ -208,14 +208,15 @@ app.get('/',function(req, res){
 
 });
 
-app.get('/123',function(req, res){
-	 
-	
+app.get('/css/bootstrap.css',function(req, res){
+	fs.readFile('./public/css/bootstrap.css',function(err,html){
+		if(err){
+			throw err;
+		}
 		res.writeHeader(200, {"Content-Type": "text/html"});
-		res.write("hi 123");
+		res.write(html);
 		res.end();
-	
-
+	})
 });
 
 app.listen(process.env.PORT || 3000);
