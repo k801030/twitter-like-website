@@ -206,7 +206,16 @@ app.get('/',function(req, res){
 		res.end();
 	})
 
+});
+
+app.get('/123',function(req, res){
+	 
 	
+		res.writeHeader(200, {"Content-Type": "text/html"});
+		res.write("hi 123");
+		res.end();
+	
+
 });
 
 app.listen(process.env.PORT || 3000);
