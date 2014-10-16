@@ -196,7 +196,7 @@ app.post('/autoUpdate/comment',function(req, res){
 var fs = require('fs');
 
 app.get('/',function(req, res){
-	
+	 
 	fs.readFile('./index.html',function(err,html){
 		if(err){
 			throw err;
