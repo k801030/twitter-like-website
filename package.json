@@ -1,7 +1,7 @@
 {
   "name": "sdm_hw2",
   "version": "0.0.0",
-  "description": "",
+  "description": "Act like forum",
   "main": "server.js",
   "dependencies": {
     "express": "^4.9.5",
