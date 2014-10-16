@@ -193,9 +193,19 @@ app.post('/autoUpdate/comment',function(req, res){
 	
 });
 
+var fs = require('fs');
+
 app.get('/',function(req, res){
+	var _html;
+	fs.readFile('./dist/index.html',function(err,html){
+		if(err){
+			throw err;
+		}
+		_html = html
+	})
+
 	res.writeHeader(200, {"Content-Type": "text/html"});
-	res.write("hello!");
+	res.write(_html);
 	res.end();
 });
 
