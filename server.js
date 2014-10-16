@@ -49,7 +49,7 @@ function insert_topic(content,member){
 }
 
 function insert_comment(topic_id, content,member){
-	conn.query('INSERT INTO Comment(Topic_ID, Comment_Content, Member_ID) values("'+topic_id+'","'+content+'","'+member+'")',function(error, rows, fields){
+	conn.query('INSERT INTO Comment(Topic_ID, Comment_Content, Member_ID, Comment_PostTime) values("'+topic_id+'","'+content+'","'+member+'","'+getFormatTimestamp(new Date())+'")',function(error, rows, fields){
 		if(error){
 			console.log(error);
 			throw error;
@@ -110,8 +110,6 @@ app.post('/init',function(req, res){
 				topics = rows;
 				var dataReceived = new DataReceived();
 				dataReceived.total = topics.length;
-				console.log(dataReceived.total);
-				console.log(dataReceived.received);
 				for(var i=0; i<topics.length; i++){
 					topics[i].comments = [];
 					conn.query('SELECT * FROM Comment where Topic_ID = '+ topics[i].Topic_ID+' ORDER BY Comment_PostTime', function(error, rows, fields){
@@ -162,28 +160,40 @@ app.post('/post',function(req, res){
 			insert_comment(data.topic_id,data.text,"anonymous");
 			break;
 	}
-	
-	
 	//res.send();
 });
 
-app.post('/autoUpdate',function(req, res){
+app.post('/autoUpdate/topic',function(req, res){
 	var data = req.body;
-	
 	var sendData = null;
 	var time = getFormatTimestamp(parseInt(data.timestamp));
 
 	conn.query('SELECT * FROM Topic where Topic_PostTime  >= "'+time+'" ' , function(error, rows, fields){
-		if(error){
-			throw error;
-		}
-		if(rows.length)
-			sendData = rows;
-		
+		if(error)	throw error;
+		if(rows.length)	sendData = rows;
+
 		res.send({data:sendData ,timestamp: getTimestamp()});
+		console.log('send topic');
 	});
 	
 });
+
+app.post('/autoUpdate/comment',function(req, res){
+	var data = req.body;
+	var sendData = null;
+	var time = getFormatTimestamp(parseInt(data.timestamp));
+
+	conn.query('SELECT * FROM Comment where Comment_PostTime  >= "'+time+'" ' , function(error, rows, fields){
+		if(error)	throw error;
+		if(rows.length)	sendData = rows;
+		
+		res.send({data:sendData ,timestamp: getTimestamp()});
+		console.log('send comment');
+	});
+	
+});
+
+
 
 app.listen(3000);
 

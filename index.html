@@ -22,8 +22,8 @@
 		<div class="col-sm-2 profile">profile</div>
 		<div class="col-sm-9">
 		<div class="time">{{formattedTime(topic.Topic_PostTime)}}</div>
-		<div class="content">{{topic.Topic_Content}}</div>
-		<div class="comment" ng-repeat="comment in topic.comments">{{comment.Comment_Content}}</div>
+		<div class="content">{{topic.Topic_Content}}.{{topic.Topic_ID}}</div>
+		<div class="comment" ng-repeat="comment in topic.comments">{{comment.Comment_Content}}.{{comment.Comment_ID}}</div>
 		<form ng-submit='post_comment(topic.Topic_ID,comment[topic.Topic_ID])'>
 			<input class="input-comment" ng-model="comment[topic.Topic_ID]">
 		</form>

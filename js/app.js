@@ -82,7 +82,7 @@
 		var autoUpdate = function(){
 			
 			$.ajax({
-					url: serverUrl+'autoUpdate',
+					url: serverUrl+'autoUpdate/topic',
 					type: 'POST',
 					cache: false,
 					dataType: 'json',
@@ -94,9 +94,30 @@
 					success: function(data){
 						if(data.data){
 							_timestamp = data.timestamp;
-							console.log(data.data[data.data.length-1]);
-							insertData(data.data);
+							insertData('topic',data.data);
 							
+						}
+						//console.log("最後一次更新時間:"+new Date(timestamp));
+						//console.log("最後一PO:"+data.data);
+						
+					}
+			});
+
+			$.ajax({
+					url: serverUrl+'autoUpdate/comment',
+					type: 'POST',
+					cache: false,
+					dataType: 'json',
+					crossDomain: true, //
+					data: { timestamp: _timestamp },
+					error: function(jqxhr, textStatus, errorThrown){
+						console.log('error:'+textStatus);
+					},
+					success: function(data){
+						if(data.data){
+							_timestamp = data.timestamp;
+							insertData('comment',data.data);
+										
 						}
 						//console.log("最後一次更新時間:"+new Date(timestamp));
 						//console.log("最後一PO:"+data.data);
@@ -112,7 +133,7 @@
 			}
 			new_data = [];
 			console.log('auto:'+$scope.data);*/
-			$timeout(autoUpdate,500);
+			$timeout(autoUpdate,5000);
 		}
 
 		$scope.formattedTime = function(timestamp){
@@ -135,18 +156,52 @@
 			return time;
 		}
 
-		var insertData = function(data){
-			for(var i=0; i<data.length; i++){
-				var matchFlag = 0;
-				for(var j=0;j<$scope.data.length; j++){
-					if($scope.data[j].Topic_ID == data[i].Topic_ID){	
-						$scope.data[j] = data[i];
-						matchFlag = 1;
-						break;
+		var insertData = function(type,data){
+			console.log("insert "+type);
+			if(type == 'topic'){
+				for(var i=0; i<data.length; i++){
+					var matchFlag = 0;
+					for(var j=0;j<$scope.data.length; j++){
+						if($scope.data[j].Topic_ID == data[i].Topic_ID){	
+							$scope.data[j] = data[i];
+							matchFlag = 1;
+							break;
+						}
+					}
+					if(!matchFlag){
+						$scope.data.unshift(data[i]);
 					}
 				}
-				if(!matchFlag){
-					$scope.data.unshift(data[i]);
+			}
+
+
+
+			if(type =='comment'){
+				// may get muti-data;
+				for(var i=0; i<data.length; i++){
+					var matchFlag = 0;
+					// check if this topic exists
+					for(var j=0;j<$scope.data.length; j++){
+						if($scope.data[j].Topic_ID == data[i].Topic_ID){
+							//check if this comment exists
+							if($scope.data[j].comments == null)
+								$scope.data[j].comments = [];
+							for(var k=0; k<$scope.data[j].comments.length; k++){
+								if($scope.data[j].comments[k].Comment_ID == data[i].Comment_ID){
+									$scope.data[j].comments[k] = data[i];
+									matchFlag = 1;
+									break;
+								}
+							}
+						}
+						break;
+					}
+
+					if(!matchFlag){
+						if($scope.data[j].comments == null)
+							$scope.data[j].comments = [];
+						$scope.data[j].comments.push(data[i]);
+					}
 				}
 			}
 
