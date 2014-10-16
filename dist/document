@@ -11,3 +11,8 @@ angular: 花了很多時間在想如何讓資料進行更新。
 2. 同上（一次抓timestamp後的資料）
 3. 透過server去通知新的資料。
 4. server keeps 新資料，回覆要求。
+
+
+Heroku:
+npm init/package.json
+Procfile web: node server.js
