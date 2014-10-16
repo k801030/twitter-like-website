@@ -193,7 +193,11 @@ app.post('/autoUpdate/comment',function(req, res){
 	
 });
 
-
+app.get('/',function(req, res){
+	res.writeHeader(200, {"Content-Type": "text/html"});
+	res.write("hello!");
+	res.end();
+});
 
 app.listen(process.env.PORT || 3000);
 
