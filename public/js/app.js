@@ -2,8 +2,7 @@
 	var app = angular.module('forum',[]);
 	var _data = [];
 	var _dataLength = 0;
-	var port = 3000;
-	var serverUrl = 'http://ntufakebook.herokuapp.com:'+port+'/';
+	var serverUrl = 'http://ntufakebook.herokuapp.com/';
 	var _timestamp = 0;
 	app.controller('ContentCtrl',function($scope,$timeout){
 		$scope.data = [];

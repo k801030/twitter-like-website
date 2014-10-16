@@ -219,6 +219,17 @@ app.get('/css/bootstrap.css',function(req, res){
 	})
 });
 
+app.get('/css/bootstrap.css.map',function(req, res){
+	fs.readFile('./public/css/bootstrap.css.map',function(err,html){
+		if(err){
+			throw err;
+		}
+		res.writeHeader(200, {"Content-Type": "text/html"});
+		res.write(html);
+		res.end();
+	})
+});
+
 app.get('/css/main.css',function(req, res){
 	fs.readFile('./public/css/main.css',function(err,html){
 		if(err){
@@ -229,6 +240,8 @@ app.get('/css/main.css',function(req, res){
 		res.end();
 	})
 });
+
+
 
 app.get('/js/app.js',function(req, res){
 	fs.readFile('./public/js/app.js',function(err,html){
