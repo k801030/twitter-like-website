@@ -14,5 +14,6 @@ angular: 花了很多時間在想如何讓資料進行更新。
 
 
 Heroku:
-npm init/package.json
-Procfile web: node server.js
+npm init/package.json     
+Procfile web: node server.js  // locally start
+ use the Harp buildpack    // 可以查到dir
