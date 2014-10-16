@@ -1,7 +1,9 @@
 (function(){
 	var app = angular.module('forum',[]);
-	var _data = null;
+	var _data = [];
 	var _dataLength = 0;
+	var serverUrl = 'http://localhost:3000/';
+	var _timestamp = 0;
 	app.controller('ContentCtrl',function($scope,$timeout){
 		$scope.data = [];
 		$scope.topic = '';
@@ -11,14 +13,13 @@
 		$scope.post_topic = function(){
 			if($scope.topic){
 				$.ajax({
-					url:'http://localhost:8888',
+					url: serverUrl+'post',
 					type: 'post',
 					cache: false,
-					dataType: 'jsonp',
-					jsonpCallback: "_testcb",
-					data:{
-						type: 'post_topic',
-						content: $scope.topic
+					dataType: 'json',
+					data: {
+						type: 'topic',
+						text: $scope.topic
 					},
 					error: function(jqxhr, textStatus, errorThrown){
 						console.log('error:'+textStatus);
@@ -32,28 +33,77 @@
 			$scope.topic = '';
 		}
 		var init = function(){
-			if(_data == null){
-				$timeout(init,100);
-
-				return;
-			}
-			$scope.data = _data;
-			_dataLength = _data.length;
-			$timeout(autoUpdate,2000);
+			$.ajax({
+					url: serverUrl+'init',
+					type: 'POST',
+					cache: false,
+					dataType: 'json',
+					
+					crossDomain: true, //
+					data: {},
+					error: function(jqxhr, textStatus, errorThrown){
+						console.log('error:'+textStatus);
+					},
+					success: function(data){
+						$timeout(function(){
+							$scope.data = data.data;
+							_timestamp = data.timestamp;
+						},100);   // need delay
+						
+					}
+			});
 		}
+
 		var autoUpdate = function(){
-			if(_dataLength != _data.length){
+			
+			$.ajax({
+					url: serverUrl+'autoUpdate',
+					type: 'POST',
+					cache: false,
+					dataType: 'json',
+					crossDomain: true, //
+					data: { timestamp: _timestamp },
+					error: function(jqxhr, textStatus, errorThrown){
+						console.log('error:'+textStatus);
+					},
+					success: function(data){
+						if(data.data){
+							_timestamp = data.timestamp;
+							console.log(data.data[0]);
+							$scope.data.unshift(data.data[0]);
+						}
+						//console.log("最後一次更新時間:"+new Date(timestamp));
+						//console.log("最後一PO:"+data.data);
+						
+					}
+			});
+
+			/*if(_dataLength != _data.length){
 				//new_data[i].comments = []; // notice:  server.js:87 
 				//_data.push(new_data[i]);
 				$scope.data = _data;
 				_dataLength = _data.length;
 			}
 			new_data = [];
+			console.log('auto:'+$scope.data);*/
 			$timeout(autoUpdate,2000);
 		}
 
-		$timeout(init,200);
+
+		var go = function(){
 		
+				$scope.data = _data;
+				$scope.length = _dataLength;
+				console.log(_data);
+
+			
+			$scope.shit += "2";
+			console.log('go');
+			//$timeout(go,200);
+		}
+
+		init();
+		autoUpdate();
 
 		$scope.formattedTime = function(timestamp){
 			var d = new Date(timestamp);
