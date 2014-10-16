@@ -205,7 +205,7 @@ app.get('/',function(req, res){
 	})
 
 	res.writeHeader(200, {"Content-Type": "text/html"});
-	res.write(_html);
+	res.write("zz");
 	res.end();
 });
 
