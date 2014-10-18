@@ -20,7 +20,7 @@
 		<input id="input-topic" ng-model="topic">
 	</form>
 	<div class="col-sm-12 topic" ng-repeat="topic in data">
-		<div class="col-sm-2 profile"></div>
+		<div class="col-sm-2 profile">{{topic.Member_ID}}</div>
 		<div class="col-sm-9">
 		<div class="time">{{formattedTime(topic.Topic_PostTime)}}</div>
 		<div class="content">{{topic.Topic_Content}}.{{topic.Topic_ID}}</div>

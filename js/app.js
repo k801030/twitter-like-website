@@ -19,7 +19,6 @@
 					url: serverUrl+'post',
 					type: 'post',
 					cache: false,
-					dataType: 'json',
 					data: {
 						"type": "topic",
 						"content": $scope.topic,
@@ -44,7 +43,6 @@
 					url: serverUrl+'post',
 					type: 'post',
 					cache: false,
-					dataType: 'Json',
 					data: {
 						"type": "comment",
 						"topic_id": id,
@@ -68,9 +66,7 @@
 			$.ajax({
 					url: serverUrl+'init',
 					type: 'POST',
-					cache: false,
-					dataType: 'json',
-					
+					cache: false,					
 					crossDomain: true, //
 					data: {},
 					error: function(jqxhr, textStatus, errorThrown){
