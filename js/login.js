@@ -72,8 +72,8 @@ function ConnectServerLogin(profile){
 	error: function(jqxhr, textStatus, errorThrown){
 		console.log('error:'+textStatus);
 	},
-	success: function(item){
-		setsessionStorage(item);
+	success: function(data){
+		setsessionStorage(data,redirect());
 		//var obj = JSON.parse(data);
 		//console.log('post sucessful:'+obj.timestamp);
 	}	
@@ -82,14 +82,18 @@ function ConnectServerLogin(profile){
 var k = sessionStorage.getItem("id");
 console.log(k);
 
-function setsessionStorage(item){
+function setsessionStorage(data,callback){
 	if(typeof(Storage) !== "undefined") {
-		sessionStorage.setItem("id",item);
-			console.log(sessionStorage.getItem("id"));
-
+		sessionStorage.setItem("profile.id",data.id);
+		sessionStorage.setItem("profile.first_name",data.first_name);
+		sessionStorage.setItem("profile.last_name",data.last_name);
 	    // Code for sessionStorage/sessionStorage.
 	} else {
 	    // Sorry! No Web Storage support..
 	}
+}
+
+function redirect(){
+	 window.location.assign("./");
 }
 

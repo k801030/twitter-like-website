@@ -154,10 +154,10 @@ app.post('/post',function(req, res){
 	var data = req.body;
 	switch(data.type){
 		case 'topic':
-			insert_topic(data.text,"anonymous");
+			insert_topic(data.content,data.member);
 			break;
 		case 'comment':
-			insert_comment(data.topic_id,data.text,"anonymous");
+			insert_comment(data.topic_id,data.content,data.member);
 			break;
 	}
 	res.send(null);
@@ -192,16 +192,18 @@ app.post('/autoUpdate/comment',function(req, res){
 
 app.post('/login',function(req, res){
 	var profile = req.body;
-	conn.query('SELECT * FROM MEMBER where Member_ID  = "'+profile.id+'" ' , function(error, rows, fields){
+	console.log(profile.id);
+	conn.query('SELECT * FROM MEMBER where Member_ID  = '+profile.id+' ' , function(error, rows, fields){
 		if(error)	throw error;
 		if(rows.length == 0){
+			console.log(profile.id);
 			conn.query('INSERT INTO MEMBER(Member_ID,MEMBER_FIRSTNAME,MEMBER_LASTNAME) values("'+profile.id+'","'+profile.first_name+'","'+profile.last_name+'")', function(error, rows, fields){
 				if(error)	throw error;
 
 			});
 		}
 		// behavior as session
-		res.send(profile.id);
+		res.send(profile);
 	});
 
 });

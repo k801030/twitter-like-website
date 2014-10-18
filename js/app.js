@@ -5,6 +5,11 @@
 	var serverUrl = 'http://localhost:3000/';
 	var _timestamp = 0;
 	app.controller('ContentCtrl',function($scope,$timeout){
+		$scope.profile = {
+			id: sessionStorage.getItem("profile.id"),
+			first_name: sessionStorage.getItem("profile.first_name"),
+			last_name: sessionStorage.getItem("profile.last_name")
+		}
 		$scope.data = [];
 		$scope.topic = '';
 		$scope.comment = [];
@@ -17,7 +22,8 @@
 					dataType: 'json',
 					data: {
 						"type": "topic",
-						"text": $scope.topic
+						"content": $scope.topic,
+						"member": $scope.profile.id
 					},
 					error: function(jqxhr, textStatus, errorThrown){
 						console.log('error:'+textStatus);
@@ -42,7 +48,8 @@
 					data: {
 						"type": "comment",
 						"topic_id": id,
-						"text": $scope.comment[id]
+						"content": $scope.comment[id],
+						"member": $scope.profile.id
 					},
 					error: function(jqxhr, textStatus, errorThrown){
 						console.log('error:'+textStatus);
