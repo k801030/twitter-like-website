@@ -15,26 +15,7 @@
 <script>
 var serverUrl = 'http://localhost:3000/';
 
-// jQuery Ajax
-function serverLogin(){
-	$.ajax({
-	url: serverUrl+'login',
-	type: 'post',
-	cache: false,
-	dataType: 'json',
-	data: {
-		"type": "topic",
-		"text": $scope.topic
-	},
-	error: function(jqxhr, textStatus, errorThrown){
-		console.log('error:'+textStatus);
-	},
-	success: function(data){
-		//var obj = JSON.parse(data);
-		//console.log('post sucessful:'+obj.timestamp);
-	}	
-});
-}
+
 
 // facebook API
 window.fbAsyncInit = function() {
@@ -60,6 +41,6 @@ window.fbAsyncInit = function() {
 	fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
 </script>
-<script type="text/javascript" src="js/fb.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
 </body>
 </html>

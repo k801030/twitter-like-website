@@ -1,3 +1,4 @@
+// Profile Info object
 function Profile(){
 	this.uid;
 	this.imgUrl;
@@ -47,16 +48,48 @@ function checkLoginState() {
 }
 
 
-
-
 // Here we run a very simple test of the Graph API after login is
 // successful.  See statusChangeCallback() for when this call is made.
 function fecthInfo() {
 	console.log('Welcome!  Fetching your information.... ');
 	FB.api('/me', function(response) {
-		console.log(JSON.stringify(response));
 		profile.init(response.id,response.first_name,response.last_name);
-		console.log(profile);
+		ConnectServerLogin(profile);
 	});
+}
+
+// jQuery Ajax
+function ConnectServerLogin(profile){
+	$.ajax({
+	url: serverUrl+'login',
+	type: 'post',
+	cache: false,
+	data: { 
+		id : profile.id ,
+		first_name : profile.first_name,
+		last_name : profile.last_name 
+	},
+	error: function(jqxhr, textStatus, errorThrown){
+		console.log('error:'+textStatus);
+	},
+	success: function(item){
+		setsessionStorage(item);
+		//var obj = JSON.parse(data);
+		//console.log('post sucessful:'+obj.timestamp);
+	}	
+});
+}
+var k = sessionStorage.getItem("id");
+console.log(k);
+
+function setsessionStorage(item){
+	if(typeof(Storage) !== "undefined") {
+		sessionStorage.setItem("id",item);
+			console.log(sessionStorage.getItem("id"));
+
+	    // Code for sessionStorage/sessionStorage.
+	} else {
+	    // Sorry! No Web Storage support..
+	}
 }
 

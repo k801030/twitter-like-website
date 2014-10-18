@@ -190,6 +190,23 @@ app.post('/autoUpdate/comment',function(req, res){
 	
 });
 
+app.post('/login',function(req, res){
+	var profile = req.body;
+	conn.query('SELECT * FROM MEMBER where Member_ID  = "'+profile.id+'" ' , function(error, rows, fields){
+		if(error)	throw error;
+		if(rows.length == 0){
+			conn.query('INSERT INTO MEMBER(Member_ID,MEMBER_FIRSTNAME,MEMBER_LASTNAME) values("'+profile.id+'","'+profile.first_name+'","'+profile.last_name+'")', function(error, rows, fields){
+				if(error)	throw error;
+
+			});
+		}
+		// behavior as session
+		res.send(profile.id);
+	});
+
+});
+
+// for heroku's
 var fs = require('fs');
 
 app.get('/',function(req, res){
