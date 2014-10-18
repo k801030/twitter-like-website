@@ -160,7 +160,7 @@ app.post('/post',function(req, res){
 			insert_comment(data.topic_id,data.text,"anonymous");
 			break;
 	}
-	//res.send();
+	res.send(null);
 });
 
 app.post('/autoUpdate/topic',function(req, res){
@@ -173,7 +173,6 @@ app.post('/autoUpdate/topic',function(req, res){
 		if(rows.length)	sendData = rows;
 
 		res.send({data:sendData ,timestamp: getTimestamp()});
-		console.log('send topic');
 	});
 	
 });
@@ -182,13 +181,11 @@ app.post('/autoUpdate/comment',function(req, res){
 	var data = req.body;
 	var sendData = null;
 	var time = getFormatTimestamp(parseInt(data.timestamp));
-
 	conn.query('SELECT * FROM Comment where Comment_PostTime  >= "'+time+'" ' , function(error, rows, fields){
 		if(error)	throw error;
 		if(rows.length)	sendData = rows;
 		
 		res.send({data:sendData ,timestamp: getTimestamp()});
-		console.log('send comment');
 	});
 	
 });
@@ -254,7 +251,7 @@ app.get('/js/app.js',function(req, res){
 	})
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 
 

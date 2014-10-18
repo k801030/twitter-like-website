@@ -16,14 +16,14 @@
 					cache: false,
 					dataType: 'json',
 					data: {
-						type: 'topic',
-						text: $scope.topic
+						"type": "topic",
+						"text": $scope.topic
 					},
 					error: function(jqxhr, textStatus, errorThrown){
 						console.log('error:'+textStatus);
 					},
 					success: function(data){
-						var obj = JSON.parse(data);
+						//var obj = JSON.parse(data);
 						//console.log('post sucessful:'+obj.timestamp);
 					}	
 				});
@@ -38,17 +38,17 @@
 					url: serverUrl+'post',
 					type: 'post',
 					cache: false,
-					dataType: 'json',
+					dataType: 'Json',
 					data: {
-						type: 'comment',
-						topic_id: id,
-						text: $scope.comment[id]
+						"type": "comment",
+						"topic_id": id,
+						"text": $scope.comment[id]
 					},
 					error: function(jqxhr, textStatus, errorThrown){
 						console.log('error:'+textStatus);
 					},
 					success: function(data){
-						var obj = JSON.parse(data);
+						//var obj = JSON.parse(data);
 						//console.log('post sucessful:'+obj.timestamp);
 					}	
 				});
@@ -80,7 +80,7 @@
 		}
 
 		var autoUpdate_topic = function(){
-			
+
 			$.ajax({
 					url: serverUrl+'autoUpdate/topic',
 					type: 'POST',
@@ -90,6 +90,9 @@
 					data: { timestamp: _timestamp },
 					error: function(jqxhr, textStatus, errorThrown){
 						console.log('error:'+textStatus);
+					},
+					complete: function (XHR, TS) { 
+						XHR = null;
 					},
 					success: function(data){
 						if(data.data){
@@ -102,9 +105,8 @@
 			});
 		}
 
-
+		var timer = 0;
 		var autoUpdate_comment = function(){
-
 			$.ajax({
 					url: serverUrl+'autoUpdate/comment',
 					type: 'POST',
@@ -115,7 +117,11 @@
 					error: function(jqxhr, textStatus, errorThrown){
 						console.log('error:'+textStatus);
 					},
+					complete: function (XHR, TS) { 
+						XHR = null;
+					},
 					success: function(data){
+
 						if(data.data){
 							_timestamp = data.timestamp;
 							insertData('comment',data.data);
@@ -123,6 +129,7 @@
 						$timeout(autoUpdate_comment,2000);
 					}
 			});
+
 
 		}
 		$scope.formattedTime = function(timestamp){
@@ -146,7 +153,6 @@
 		}
 
 		var insertData = function(type,data){
-			console.log("insert "+type);
 			if(type == 'topic'){
 				for(var i=0; i<data.length; i++){
 					var matchFlag = 0;

@@ -17,3 +17,5 @@ Heroku:
 npm init/package.json     
 Procfile web: node server.js  // locally start
 use the Harp buildpack    // 可以查到dir
+
+server要回覆require。 不然會死掉
