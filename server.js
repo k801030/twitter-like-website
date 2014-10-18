@@ -103,7 +103,7 @@ app.use(bodyParser());  // get req.body
 app.use(allowCrossDomain); // enable cross domain
 
 app.post('/init',function(req, res){
-	conn.query('SELECT * FROM Topic ORDER BY Topic_PostTime DESC',function(error, rows, fields){
+	conn.query('SELECT * FROM Topic INNER JOIN member on topic.Member_ID = member.Member_ID ORDER BY Topic_PostTime DESC',function(error, rows, fields){
 				if(error){
 					throw error;
 				}
@@ -112,7 +112,7 @@ app.post('/init',function(req, res){
 				dataReceived.total = topics.length;
 				for(var i=0; i<topics.length; i++){
 					topics[i].comments = [];
-					conn.query('SELECT * FROM Comment where Topic_ID = '+ topics[i].Topic_ID+' ORDER BY Comment_PostTime', function(error, rows, fields){
+					conn.query('SELECT * FROM Comment INNER JOIN member on comment.Member_ID = member.Member_ID where Topic_ID = '+ topics[i].Topic_ID+' ORDER BY Comment_PostTime', function(error, rows, fields){
 						if(error){
 							throw error;
 						}
@@ -168,7 +168,7 @@ app.post('/autoUpdate/topic',function(req, res){
 	var sendData = null;
 	var time = getFormatTimestamp(parseInt(data.timestamp));
 
-	conn.query('SELECT * FROM Topic where Topic_PostTime  >= "'+time+'" ' , function(error, rows, fields){
+	conn.query('SELECT * FROM Topic INNER JOIN member on topic.Member_ID = member.Member_ID where Topic_PostTime  >= "'+time+'" ' , function(error, rows, fields){
 		if(error)	throw error;
 		if(rows.length)	sendData = rows;
 
@@ -181,7 +181,7 @@ app.post('/autoUpdate/comment',function(req, res){
 	var data = req.body;
 	var sendData = null;
 	var time = getFormatTimestamp(parseInt(data.timestamp));
-	conn.query('SELECT * FROM Comment where Comment_PostTime  >= "'+time+'" ' , function(error, rows, fields){
+	conn.query('SELECT * FROM Comment INNER JOIN member on comment.Member_ID = member.Member_ID where Comment_PostTime  >= "'+time+'" ' , function(error, rows, fields){
 		if(error)	throw error;
 		if(rows.length)	sendData = rows;
 		
@@ -204,6 +204,20 @@ app.post('/login',function(req, res){
 		}
 		// behavior as session
 		res.send(profile);
+	});
+
+});
+
+app.post('/checklogin',function(req, res){
+	var id = req.body.id;
+	console.log("id:"+id);
+	conn.query('SELECT * FROM MEMBER where Member_ID = '+id+' ' , function(error, rows, fields){
+		if(error)	throw error;
+		if(rows.length == 0){
+			res.send(null);
+		}
+		// behavior as session
+		res.send(rows[0]);
 	});
 
 });

@@ -61,26 +61,24 @@ function fecthInfo() {
 // jQuery Ajax
 function ConnectServerLogin(profile){
 	$.ajax({
-	url: serverUrl+'login',
-	type: 'post',
-	cache: false,
-	data: { 
-		id : profile.id ,
-		first_name : profile.first_name,
-		last_name : profile.last_name 
-	},
-	error: function(jqxhr, textStatus, errorThrown){
-		console.log('error:'+textStatus);
-	},
-	success: function(data){
-		setsessionStorage(data,redirect());
-		//var obj = JSON.parse(data);
-		//console.log('post sucessful:'+obj.timestamp);
-	}	
-});
+		url: serverUrl+'login',
+		type: 'post',
+		cache: false,
+		data: { 
+			id : profile.id ,
+			first_name : profile.first_name,
+			last_name : profile.last_name 
+		},
+		error: function(jqxhr, textStatus, errorThrown){
+			console.log('error:'+textStatus);
+		},
+		success: function(data){
+			setsessionStorage(data,redirect());
+			//var obj = JSON.parse(data);
+			//console.log('post sucessful:'+obj.timestamp);
+		}	
+	});
 }
-var k = sessionStorage.getItem("id");
-console.log(k);
 
 function setsessionStorage(data,callback){
 	if(typeof(Storage) !== "undefined") {
@@ -96,4 +94,33 @@ function setsessionStorage(data,callback){
 function redirect(){
 	 window.location.assign("./");
 }
+
+
+function sessionChecking(myid){
+	$.ajax({
+		url: serverUrl+'checklogin',
+		type: 'post',
+		cache: false,
+		data: { 
+			id : myid
+		},
+		error: function(jqxhr, textStatus, errorThrown){
+			console.log('error:'+textStatus);
+		},
+		success: function(data){
+			if(data.length != 0){
+				profile.init(data.Member_ID, data.MEMBER_FIRSTNAME, data.MEMBER_LASTNAME);
+				setsessionStorage(profile,redirect());
+			}
+			//var obj = JSON.parse(data);
+			//console.log('post sucessful:'+obj.timestamp);
+		}
+	});
+}
+
+if((myid = sessionStorage.getItem('profile.id'))!=null){
+	sessionChecking(myid);
+}
+
+
 
