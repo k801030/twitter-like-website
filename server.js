@@ -194,7 +194,7 @@ var fs = require('fs');
 
 app.get('/',function(req, res){
 	 
-	fs.readFile('./public/index.html',function(err,html){
+	fs.readFile('./index.html',function(err,html){
 		if(err){
 			throw err;
 		}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/main.css" />
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+</head>
+
+<body>
+	status:<div id="status"></div>
+	<fb:login-button scope="public_profile" onlogin="checkLoginState();">
+	</fb:login-button>
+	<div id="fb-root"></div>
+<script>
+var serverUrl = 'http://localhost:3000/';
+
+// jQuery Ajax
+function serverLogin(){
+	$.ajax({
+	url: serverUrl+'login',
+	type: 'post',
+	cache: false,
+	dataType: 'json',
+	data: {
+		"type": "topic",
+		"text": $scope.topic
+	},
+	error: function(jqxhr, textStatus, errorThrown){
+		console.log('error:'+textStatus);
+	},
+	success: function(data){
+		//var obj = JSON.parse(data);
+		//console.log('post sucessful:'+obj.timestamp);
+	}	
+});
+}
+
+// facebook API
+window.fbAsyncInit = function() {
+	FB.init({
+	appId      : '261669747290375',
+	cookie     : true,  // enable cookies to allow the server to access 
+	                    // the session
+	xfbml      : true,  // parse social plugins on this page
+	version    : 'v2.1' // use version 2.1
+	});
+
+	// Now that we've initialized the JavaScript SDK, we call 
+	// FB.getLoginStatus(). 
+
+};
+
+// Load the SDK asynchronously
+	(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
+<script type="text/javascript" src="js/fb.js"></script>
+</body>
+</html>
