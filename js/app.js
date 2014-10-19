@@ -126,8 +126,6 @@
 					success: function(data){
 
 						if(data.data){
-							console.log(data.data[0]);
-
 							_timestamp = data.timestamp;
 							insertData('comment',data.data);
 						}
