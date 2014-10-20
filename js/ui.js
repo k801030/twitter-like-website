@@ -7,9 +7,9 @@
 		var element = $(this).parent().find('.commentAll')
 		if(!element.is(':animated')){
 			if(element.is(':hidden'))
-				moveOut(element);
+				moveOut(element,500);
 			else
-				moveIn(element);
+				moveIn(element,500);
 		}
 	});
 
@@ -20,7 +20,9 @@
 		element.css('height',from);
 		element.show().animate({
 			height:to,
-		},duration||800);
+		},duration||800,function complete(){
+			element.css('height','');
+		}); //default 800
 	}
 	function moveIn(element,duration){
 		var from = element.height();
@@ -29,7 +31,7 @@
 			height:to,
 		},duration||800,function complete(){
 			element.hide();
-			element.css('height',from);
+			element.css('height','');
 		});
 	}
 
