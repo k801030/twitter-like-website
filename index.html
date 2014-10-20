@@ -13,14 +13,21 @@
 
 <body>
 <div class="container" ng-controller="ContentCtrl">
-	{{profile.id}}
-	{{profile.first_name}}
-	{{profile.last_name}}
-	<div id="status"></div>
-	<form ng-submit='post_topic(topic)'>
-		<input id="input-topic" ng-model="topic">
-	</form>
-	<div class="col-sm-offset-2 col-sm-8">
+	<div class="col-sm-3 info">
+		<img class="profile profile-topic" ng-src="https://graph.facebook.com/{{profile.id}}/picture?width=200&height=200"/>
+		<p>
+			{{profile.first_name}}
+			{{profile.last_name}}
+		</p>
+		<div class="col-sm-12 input">
+			<form ng-submit='post_topic(topic)'>
+				<input class="col-sm-offset-1 col-sm-10 input-comment" id="input-topic" ng-model="topic">
+				<button type="submit" class="button-submit">推文</button>
+			</form>
+		</div>
+	</div>
+	
+	<div class="col-sm-7">
 		<div class="col-sm-12 topic" ng-repeat="topic in data" ng-class="{first: $first, last: $last }">
 			<div class="col-sm-12 topic-header">
 				<div class="col-sm-2">
@@ -39,7 +46,7 @@
 						<img class="profile profile-comment" ng-src="https://graph.facebook.com/{{profile.id}}/picture?width=200&height=200"/>
 					</div>
 					<form class="col-sm-10" ng-submit='post_comment(topic.Topic_ID,comment[topic.Topic_ID])'>
-						<input class="col-sm-10 input-comment" ng-model="comment[topic.Topic_ID]"><button type="submit" class="button-submit">推文</button>
+						<input class="col-sm-11 input-comment" ng-model="comment[topic.Topic_ID]"><button type="submit" class="button-submit">推文</button>
 					</form>
 				</div>
 				<div class="comment col-sm-12" ng-repeat="comment in topic.comments">

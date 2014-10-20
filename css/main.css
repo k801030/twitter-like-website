@@ -5,6 +5,26 @@ body {
 	margin-bottom: 30px;
 }
 
+.info{
+	background-color: #fff;
+	border-top: 60px solid #0084b4;
+	border-bottom: 5px solid #e5f2f7;
+	padding: 10px 15px 0 15px;
+	border-radius : 5px;
+	margin-right: 10px;
+}
+.info > img {
+	border: 3px solid #fff;
+	position: absolute;
+	top: -30px;
+	left: 10px;
+	z-index: 1;
+}
+.info > p {
+	margin: 0 0 0 70px;
+	z-index: 1;
+}
+
 .topic-header, .comment-header{
 }
 
@@ -38,7 +58,9 @@ body {
 	border-radius : 5px;
 }
 .button-submit{
-	margin-left: 5px;
+	float: right;
+	margin-top: 5px;
+	margin-right: 10%;
 	height: 30px;
 	width: 70px;
 	background-color: #2d99c1;
