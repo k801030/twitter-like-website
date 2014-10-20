@@ -1,3 +1,5 @@
+var serverUrl = 'http://localhost:3000/';
+
 // Profile Info object
 function Profile(){
 	this.uid;
@@ -91,12 +93,13 @@ function setsessionStorage(data,callback){
 	}
 }
 
-function redirect(){
-	 window.location.assign("./");
+function redirect(url){
+	if(url!="")
+		window.location.assign(url);
 }
 
 
-function sessionChecking(myid){
+function sessionChecking(myid,url){
 	$.ajax({
 		url: serverUrl+'checklogin',
 		type: 'post',
@@ -110,7 +113,7 @@ function sessionChecking(myid){
 		success: function(data){
 			if(data.length != 0){
 				profile.init(data.Member_ID, data.MEMBER_FIRSTNAME, data.MEMBER_LASTNAME);
-				setsessionStorage(profile,redirect());
+				setsessionStorage(profile,redirect(url));
 			}
 			//var obj = JSON.parse(data);
 			//console.log('post sucessful:'+obj.timestamp);
@@ -118,8 +121,18 @@ function sessionChecking(myid){
 	});
 }
 
-if((myid = sessionStorage.getItem('profile.id'))!=null){
-	sessionChecking(myid);
+function check_login(url){
+	if((myid = sessionStorage.getItem('profile.id'))!=null){
+		sessionChecking(myid,url);
+	}
+}
+
+function check_index(url){
+	if((myid = sessionStorage.getItem('profile.id'))!=null){
+		sessionChecking(myid,"");
+	}else{
+		redirect(url);
+	}
 }
 
 

@@ -2,8 +2,8 @@
 <html>
 <head>
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet" href="../css/bootstrap.css">
+	<link rel="stylesheet" href="../css/main.css" />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
 </head>
 
@@ -40,7 +40,11 @@ window.fbAsyncInit = function() {
 	js.src = "//connect.facebook.net/en_US/sdk.js";
 	fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
+
 </script>
-<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="../js/login.js"></script>
+<script type="text/javascript">
+	check_login('../');
+</script>
 </body>
 </html>
