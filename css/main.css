@@ -1,7 +1,24 @@
 body {
 	background-color: #8ec1da;
 }
+
+.header{
+	height: 42px;
+	background: #fff;
+	z-index: 999;
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+.header > .logo{
+	display: block;
+	height: 42px;
+	width: auto;
+	margin: auto;
+}
+
 .container {
+	margin-top: 80px;
 	margin-bottom: 30px;
 }
 
