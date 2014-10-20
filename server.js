@@ -152,6 +152,7 @@ app.post('/init',function(req, res){
 
 app.post('/post',function(req, res){
 	var data = req.body;
+	console.log(data);
 	switch(data.type){
 		case 'topic':
 			insert_topic(data.content,data.member);

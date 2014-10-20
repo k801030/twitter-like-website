@@ -22,29 +22,36 @@
 	</form>
 	<div class="col-sm-offset-2 col-sm-8">
 		<div class="col-sm-12 topic" ng-repeat="topic in data" ng-class="{first: $first, last: $last }">
-			<div class="topic-header">
+			<div class="col-sm-12 topic-header">
 				<div class="col-sm-2">
-					<img class="profile radius profile-topic" ng-src="https://graph.facebook.com/{{topic.Member_ID}}/picture?width=200&height=200"/>
+					<img class="profile profile-topic" ng-src="https://graph.facebook.com/{{topic.Member_ID}}/picture?width=200&height=200"/>
 				</div>
 				<div class="col-sm-9">
-					<div class="name topic-name">{{tab}}{{topic.MEMBER_FIRSTNAME}} {{topic.Topic_ID}}</div>
+					<div class="name topic-name">{{tab}}{{topic.MEMBER_FIRSTNAME}}</div>
 					<div class="time">{{formattedTime(topic.Topic_PostTime)}}</div>
 					<div class="content content-topic">{{topic.Topic_Content}}</div>
 				</div>
 			</div>
-			<div class="col-sm-12 commentAll">	
-				<div class="comment col-sm-12 " ng-repeat="comment in topic.comments">
+			
+			<div class="col-sm-12 comment-header">
+				<div class="col-sm-12 input">
 					<div class="col-sm-2">
-						<img class="profile radius profile-comment" ng-src="https://graph.facebook.com/{{comment.Member_ID}}/picture?width=200&height=200"/>
+						<img class="profile profile-comment" ng-src="https://graph.facebook.com/{{profile.id}}/picture?width=200&height=200"/>
 					</div>
-				<div class="col-sm-9">
-					<div class="name topic-name">{{tab}}{{comment.MEMBER_FIRSTNAME}} {{comment.Comment_ID}}</div>
-					<div class="time">{{formattedTime(comment.Comment_PostTime)}}</div>
-					<div class="content content-comment">{{comment.Comment_Content}}</div>
+					<form class="col-sm-9" ng-submit='post_comment(topic.Topic_ID,comment[topic.Topic_ID])'>
+						<input class="col-sm-9 input-comment" ng-model="comment[topic.Topic_ID]">
+					</form>
 				</div>
-				<form class="col-sm-12" ng-submit='post_comment(topic.Topic_ID,comment[topic.Topic_ID])'>
-					<input class="input-comment" ng-model="comment[topic.Topic_ID]">
-				</form>
+				<div class="comment col-sm-12" ng-repeat="comment in topic.comments">
+					<div class="col-sm-2">
+						<img class="profile profile-comment" ng-src="https://graph.facebook.com/{{comment.Member_ID}}/picture?width=200&height=200"/>
+					</div>
+					<div class="col-sm-9">
+						<div class="name topic-name">{{comment.MEMBER_FIRSTNAME}}</div>
+						<div class="time">{{formattedTime(comment.Comment_PostTime)}}</div>
+						<div class="content content-comment">{{comment.Comment_Content}}</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

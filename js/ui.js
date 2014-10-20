@@ -4,12 +4,16 @@
 	$(document).on("click",".topic-header",function(){
 		//var commentDiv = $('.topic').find('comment');
 		//moveOut(commentDiv,1000);
-		var element = $(this).parent().find('.commentAll')
+		var element = $(this).parent().find('.comment-header')
+		var topic = $(this).parent();
 		if(!element.is(':animated')){
-			if(element.is(':hidden'))
+			if(element.is(':hidden')){
 				moveOut(element,500);
-			else
+				topic.addClass('unfold');
+			}else{
 				moveIn(element,500);
+				topic.removeClass('unfold');
+			}
 		}
 	});
 
