@@ -1,4 +1,6 @@
 (function(){
+
+	// animation in comments
 	$(document).on("click",".topic-header",function(){
 		//var commentDiv = $('.topic').find('comment');
 		//moveOut(commentDiv,1000);
@@ -10,6 +12,7 @@
 				moveIn(element);
 		}
 	});
+
 
 	function moveOut(element,duration){
 		var from = 0;
@@ -28,7 +31,7 @@
 			element.hide();
 			element.css('height',from);
 		});
-		
-
 	}
+
+
 })();

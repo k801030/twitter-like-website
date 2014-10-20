@@ -1,29 +1,42 @@
-.main_board {
-
+.container {
+	margin-bottom: 30px;
 }
-.topic, .content, .comment{
-	border: 2px solid #bbb;
-	border-radius: 10px;
+.topic{
+	border: 1px solid #bbb;
+	border-bottom: 0px;
 	padding: 10px;
-	margin: 5px;
+}
+.topic.first{
+	border-radius: 5px 5px 0 0;
+}
+.topic.last{
+	border-radius: 0 0 5px 5px;
+	border-bottom: 1px solid #bbb;
 }
 
-.profile {
-	height: 80px;
-	width: 80px;
+.profile.profile-topic {
+	height: 50px;
+	width: 50px;
 }
+.profile.profile-comment {
+	height: 30px;
+	width: 30px;
+}
+
 .radius {
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
 }
 
-.content{
-	height: 100px;
+.content.content-topic{
+	height: 60px;
+}
+.content.content-comment{
+	height: 30px;
 }
 
-.comment, .content{
-	border: 1px solid #aaa;
+.content{
 	word-wrap: break-word;
 }
 .commentAll{
@@ -33,10 +46,9 @@
 
 .topic {
 	cursor: pointer;
-	background-color: #95e9c0;
-	margin: 15px 0;
+	background-color: #fff;
 }
-.profile, .content, .comment {
+.profile, .content {
 	background-color: #fff;
 }
 
