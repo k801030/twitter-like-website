@@ -1,7 +1,9 @@
 body {
 	background-color: #8ec1da;
 }
-
+input {
+	font-size: 12px;
+}
 .header{
 	height: 42px;
 	background: #fff;
@@ -18,8 +20,8 @@ body {
 }
 .header > button{
 	display: block;
-	height: 30px;
-	
+	height: 28px;
+	width: 56px;
 }
 
 .container {
@@ -43,6 +45,8 @@ body {
 	z-index: 1;
 }
 .info > p {
+	font-size: 14px;
+	font-weight: 600;
 	margin: 0 0 0 70px;
 	z-index: 1;
 }
@@ -134,19 +138,28 @@ body {
 }
 
 .topic-name{
+	font-size: 14px;
+	font-weight: 500;
 	display: inline-block;
 }
 .time {
+	margin-left: 5px;
 	display: inline-block;
 	font-size: 10px;
-	color: #555;
+	font-weight: 400;
+	color: #aaa;
 }
 
 /* for comment */
 .unfold{
-	margin: 5px 0 5px 0;
+	margin: 8px 0 8px 0;
 	border-radius : 5px;
 
+}
+
+.fold-button{
+	font-size: 10px;
+	color: #aaa;
 }
 
 #loading {

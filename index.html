@@ -8,14 +8,14 @@
 	<script type="text/javascript" src="js/app.js"></script>
 	<script type="text/javascript" src="js/ui.js"></script>
 	<link href="images/fakelogo.png" rel="SHORTCUT ICON">
-
+	<title>Twittel</title>
 </head>
 
 <body>
 
 <div class="header navbar-fixed-top">
 	<img class="logo navbar-fixed-top" src="images/fakelogo.png">
-	<button id="logout" class="button-submit">登出</button>
+	<button id="logout" class="button-submit ">登出</button>
 </div>
 
 <div class="container" ng-controller="ContentCtrl">
@@ -27,7 +27,7 @@
 		</p>
 		<div class="col-sm-12 input">
 			<form ng-submit='post_topic(topic)'>
-				<input class="col-sm-offset-1 col-sm-10 input-comment" id="input-topic" ng-model="topic">
+				<input class="col-sm-offset-1 col-sm-10 input-comment" id="input-topic" ng-model="topic" placeholder="撰寫新貼文...">
 				<button type="submit" class="button-submit">推文</button>
 			</form>
 		</div>
@@ -43,6 +43,7 @@
 					<div class="name topic-name">{{topic.MEMBER_FIRSTNAME}} {{topic.MEMBER_LASTNAME}}</div>
 					<div class="time">{{formattedTime(topic.Topic_PostTime)}}</div>
 					<div class="content content-topic">{{topic.Topic_Content}}</div>
+					<div class="fold-button">顯示留言({{topic.comments.length}})</div>
 				</div>
 			</div>
 			
@@ -52,7 +53,7 @@
 						<img class="profile profile-comment" ng-src="https://graph.facebook.com/{{profile.id}}/picture?width=200&height=200"/>
 					</div>
 					<form class="col-sm-10" ng-submit='post_comment(topic.Topic_ID,comment[topic.Topic_ID])'>
-						<input class="col-sm-11 input-comment" ng-model="comment[topic.Topic_ID]"><button type="submit" class="button-submit">推文</button>
+						<input class="col-sm-11 input-comment" ng-model="comment[topic.Topic_ID]" placeholder="回覆貼文"><button type="submit" class="button-submit">推文</button>
 					</form>
 				</div>
 				<div class="comment col-sm-12" ng-repeat="comment in topic.comments">
