@@ -184,7 +184,6 @@ app.post('/autoUpdate/comment',function(req, res){
 	conn.query('SELECT * FROM Comment INNER JOIN member on comment.Member_ID = member.Member_ID where Comment_PostTime  >= "'+time+'" ' , function(error, rows, fields){
 		if(error)	throw error;
 		if(rows.length)	sendData = rows;
-		
 		res.send({data:sendData ,timestamp: getTimestamp()});
 	});
 	

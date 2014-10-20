@@ -23,10 +23,16 @@
 }
 
 .comment, .content{
+	border: 1px solid #aaa;
 	word-wrap: break-word;
+}
+.commentAll{
+	display: none;
+	overflow: hidden;
 }
 
 .topic {
+	cursor: pointer;
 	background-color: #95e9c0;
 	margin: 15px 0;
 }
@@ -42,3 +48,7 @@
 	font-size: 10px;
 	color: #555;
 }
+
+
+/*  Animation  */
+

@@ -30,7 +30,7 @@
 					success: function(data){
 						//var obj = JSON.parse(data);
 						//console.log('post sucessful:'+obj.timestamp);
-					}	
+					}
 				});
 			}
 			$scope.topic = '';
@@ -181,6 +181,7 @@
 					// check if this topic exists
 					for(var j=0;j<$scope.data.length; j++){
 						if($scope.data[j].Topic_ID == data[i].Topic_ID){
+
 							//check if this comment exists
 							if($scope.data[j].comments == null)
 								$scope.data[j].comments = [];
@@ -191,10 +192,10 @@
 									break;
 								}
 							}
+							// if find correspond topic, break;
+							break;							
 						}
-						break;
 					}
-
 					if(!matchFlag){
 						if($scope.data[j].comments == null)
 							$scope.data[j].comments = [];
