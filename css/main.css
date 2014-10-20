@@ -5,7 +5,7 @@ body {
 .header{
 	height: 42px;
 	background: #fff;
-	z-index: 999;
+	z-index: 99;
     -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
@@ -15,6 +15,11 @@ body {
 	height: 42px;
 	width: auto;
 	margin: auto;
+}
+.header > button{
+	display: block;
+	height: 30px;
+	
 }
 
 .container {
@@ -137,13 +142,32 @@ body {
 	color: #555;
 }
 
-
+/* for comment */
 .unfold{
 	margin: 5px 0 5px 0;
 	border-radius : 5px;
 
 }
 
+#loading {
+	display: none;
+	position: fixed;
+	top: 0;
+	z-index: 100;
+	background-color: rgba(0,0,0,0.2);
+	min-width: 100%;
+	min-height: 100%;
+}
+#loading > img {
+	position: fixed;
+	display: block;
+	top:50%;
+	left: 50%;
+	margin-top: -10px;
+	margin-left: -10px;
+	width: 20px;
+	height: auto;
+}
 
 
 /*  Bootstrap  */

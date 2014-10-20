@@ -14,7 +14,8 @@
 <body>
 
 <div class="header navbar-fixed-top">
-	<img class="logo" src="images/fakelogo.png">
+	<img class="logo navbar-fixed-top" src="images/fakelogo.png">
+	<button id="logout" class="button-submit">登出</button>
 </div>
 
 <div class="container" ng-controller="ContentCtrl">
@@ -69,6 +70,9 @@
 	</div>
 
 </div>
+
+<div id="loading"><img src="images/loader.gif"></div>
+
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript">
 	check_index('login');

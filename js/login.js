@@ -62,6 +62,7 @@ function fecthInfo() {
 
 // jQuery Ajax
 function ConnectServerLogin(profile){
+	url = '../';
 	$.ajax({
 		url: serverUrl+'login',
 		type: 'post',
@@ -75,7 +76,7 @@ function ConnectServerLogin(profile){
 			console.log('error:'+textStatus);
 		},
 		success: function(data){
-			setsessionStorage(data,redirect());
+			setsessionStorage(data,redirect(url));
 			//var obj = JSON.parse(data);
 			//console.log('post sucessful:'+obj.timestamp);
 		}	
@@ -100,6 +101,7 @@ function redirect(url){
 
 
 function sessionChecking(myid,url){
+
 	$.ajax({
 		url: serverUrl+'checklogin',
 		type: 'post',
@@ -135,5 +137,12 @@ function check_index(url){
 	}
 }
 
+function logout(){
+	sessionStorage.setItem('profile.id',null);
+	redirect('login');
+}
+$('#logout').click(function(){
+	logout();
+});
 
 

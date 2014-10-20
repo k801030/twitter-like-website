@@ -4,6 +4,7 @@
 	var _dataLength = 0;
 	var serverUrl = 'http://localhost:3000/';
 	var _timestamp = 0;
+	var loading = new Loading();
 	app.controller('ContentCtrl',function($scope,$timeout){
 		$scope.profile = {
 			id: sessionStorage.getItem("profile.id"),
@@ -14,6 +15,7 @@
 		$scope.topic = '';
 		$scope.comment = [];
 		$scope.post_topic = function(topic){
+		loading.start();
 			if($scope.topic){
 				$.ajax({
 					url: serverUrl+'post',
@@ -37,6 +39,7 @@
 		}
 
 		$scope.post_comment = function(id,comment){
+		loading.start();
 			$scope.comment[id] = comment;
 			if($scope.comment[id]){
 				$.ajax({
@@ -83,7 +86,6 @@
 		}
 
 		var autoUpdate_topic = function(){
-
 			$.ajax({
 					url: serverUrl+'autoUpdate/topic',
 					type: 'POST',
@@ -101,9 +103,10 @@
 						if(data.data){
 							_timestamp = data.timestamp;
 							insertData('topic',data.data);
-							
+							loading.end();
 						}
-						$timeout(autoUpdate_topic,2000);
+
+						$timeout(autoUpdate_topic,1000);
 					}
 			});
 		}
@@ -128,8 +131,10 @@
 						if(data.data){
 							_timestamp = data.timestamp;
 							insertData('comment',data.data);
+							loading.end();
 						}
-						$timeout(autoUpdate_comment,2000);
+						
+						$timeout(autoUpdate_comment,1000);
 					}
 			});
 
@@ -212,7 +217,26 @@
 		autoUpdate_comment();
 	});
 
+	function Loading(){
+		this.startTime;
+		this.endTime;
+		this.start = function(){
+			this.startTime = new Date().getTime();
+			$('#loading').show();
+		}
+		this.end = function(){
+			this.endTime = new Date().getTime();
+			var diff = this.endTime - this.startTime;
+			if(diff > 500){
+				$('#loading').hide();
+			}else{
+				setTimeout(function(){
+					$('#loading').hide();
+				},500 - diff);
+			}
 
+		}
+	}
 	
 	
 
