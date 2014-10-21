@@ -5,8 +5,7 @@
 	<link rel="stylesheet" href="../css/bootstrap.css">
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
 	<style>
-		img {
-			cursor: pointer;
+		.btn {
 			position: absolute;
 			display: block;
 			top: 50%;
@@ -28,7 +27,10 @@
 
 <body>
 	<div id="bg"></div>
-	<img id="login-button" src="../images/login.png" onClick="checkLoginState();">
+	<div class="btn">
+		<fb:login-button scope="public_profile" onlogin="checkLoginState();">Login with Facebook
+		</fb:login-button>
+	</div>
 	
 	<div id="fb-root"></div>
 <script>
