@@ -43,7 +43,11 @@
 					<div class="name topic-name">{{topic.MEMBER_FIRSTNAME}} {{topic.MEMBER_LASTNAME}}</div>
 					<div class="time">{{formattedTime(topic.Topic_PostTime)}}</div>
 					<div class="content content-topic">{{topic.Topic_Content}}</div>
-					<div class="fold-button">顯示留言({{topic.comments.length}})</div>
+					<div class="fold-button">
+						<div class="to-show">展開留言</div>
+						<div class="to-hide">隱藏留言</div>
+						({{topic.comments.length||0}})
+					</div>
 				</div>
 			</div>
 			

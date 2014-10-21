@@ -154,12 +154,21 @@ input {
 .unfold{
 	margin: 8px 0 8px 0;
 	border-radius : 5px;
-
 }
 
 .fold-button{
 	font-size: 10px;
-	color: #aaa;
+	color: #2d99c1;
+}
+.fold-button:hover, .fold-button:hover > .to-show,  .fold-button:hover > .to-hide{
+	text-decoration:underline;
+}
+.fold-button > .to-hide {
+	display: none;
+}
+
+.to-show, .to-hide {
+	float: left;
 }
 
 #loading {

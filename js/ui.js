@@ -17,6 +17,20 @@
 		}
 	});
 
+	// change in fold-button
+	$(document).on("click",".topic-header",function(){
+		var ele_show = $(this).find('.to-show');
+		var ele_hide = $(this).find('.to-hide');
+		console.log(ele_show.is(':hidden'));
+		if(!ele_show.is(':hidden')){
+			ele_show.hide();
+			ele_hide.show();
+		}else{
+			ele_show.show();
+			ele_hide.hide();
+		}
+	});
+
 
 	function moveOut(element,duration){
 		var from = 0;
