@@ -8,10 +8,10 @@
 		var topic = $(this).parent();
 		if(!element.is(':animated')){
 			if(element.is(':hidden')){
-				moveOut(element,500);
+				moveOut(element,400);
 				topic.addClass('unfold');
 			}else{
-				moveIn(element,500);
+				moveIn(element,400);
 				topic.removeClass('unfold');
 			}
 		}
