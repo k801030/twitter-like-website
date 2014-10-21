@@ -3,14 +3,33 @@
 <head>
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	<link rel="stylesheet" href="../css/bootstrap.css">
-	<link rel="stylesheet" href="../css/main.css" />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+	<style>
+		img {
+			cursor: pointer;
+			position: absolute;
+			display: block;
+			top: 50%;
+			left: 50%;
+			margin-top: -25px;
+			margin-left: -128px; 
+			height: 50px;
+		}
+		#bg {
+			position: absolute;
+			min-width: 100%;
+			min-height: 100%;
+			
+			background: url('../images/bg.jpg') no-repeat center center scroll;
+			background-size: cover;
+		}
+	</style>
 </head>
 
 <body>
-	status:<div id="status"></div>
-	<fb:login-button scope="public_profile" onlogin="checkLoginState();">
-	</fb:login-button>
+	<div id="bg"></div>
+	<img id="login-button" src="../images/login.png" onClick="checkLoginState();">
+	
 	<div id="fb-root"></div>
 <script>
 var serverUrl = 'http://localhost:3000/';
