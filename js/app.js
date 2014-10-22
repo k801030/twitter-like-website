@@ -2,7 +2,7 @@
 	var app = angular.module('forum',[]);
 	var _data = [];
 	var _dataLength = 0;
-	var serverUrl = 'http://localhost:3000/';
+	var serverUrl = 'http://140.112.107.66:3000/';
 	var _timestamp = 0;
 	var loading = new Loading();
 	app.controller('ContentCtrl',function($scope,$timeout){
