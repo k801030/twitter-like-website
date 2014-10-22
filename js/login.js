@@ -1,4 +1,4 @@
-var serverUrl = 'http://localhost:3000/';
+var serverUrl = 'http://140.112.107.66:3000/';
 
 // Profile Info object
 function Profile(){
