@@ -1,0 +1,207 @@
+body {
+	font-family: sans-serif, "微軟正黑體";
+	background-color: #8ec1da;
+}
+input {
+	font-size: 12px;
+}
+.header{
+	height: 42px;
+	background: #fff;
+	z-index: 99;
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+.header > .logo{
+	display: block;
+	height: 42px;
+	width: auto;
+	margin: auto;
+}
+.header > button{
+	display: block;
+	height: 28px;
+	width: 56px;
+}
+
+.container {
+	margin-top: 80px;
+	margin-bottom: 30px;
+}
+
+.info{
+	background-color: #fff;
+	border-top: 60px solid #0084b4;
+	border-bottom: 5px solid #e5f2f7;
+	padding: 10px 15px 0 15px;
+	border-radius : 5px;
+	margin-right: 10px;
+}
+.info > img {
+	border: 3px solid #fff;
+	position: absolute;
+	top: -30px;
+	left: 10px;
+	z-index: 1;
+}
+.info > p {
+	font-family: 'Arimo', sans-serif, "微軟正黑體";
+	font-size: 14px;
+	font-weight: 600;
+	margin: 0 0 0 70px;
+	z-index: 1;
+}
+
+.topic-header, .comment-header{
+}
+
+.topic{
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-bottom: 0px;
+	padding: 10px 15px 0 15px;
+}
+.topic:hover{
+	background-color: #f8f8f8;
+}
+.topic.first{
+	border-radius : 5px 5px 0 0;
+}
+.topic.last{
+	border-radius : 0 0 5px 5px;
+	border-bottom: 1px solid #bbb;
+}
+.comment, .input {
+	border-top: 1px solid #ddd;
+	padding-top: 5px;
+}
+.input {
+	padding: 10px;
+	background-color: #e5f2f7;
+}
+.input-comment {
+	height: 30px;
+	border: 1px solid #bfe0ec;
+	border-radius : 5px;
+}
+.button-submit{
+	float: right;
+	margin-top: 5px;
+	margin-right: 10%;
+	height: 30px;
+	width: 70px;
+	background-color: #2d99c1;
+	border: 0px;
+	border-radius : 5px;
+	color: #fff;
+}
+.button-submit:hover{
+	background-color: #2974a8;
+}
+
+.profile{
+	float: right;
+	margin-right: 15px;
+}
+.profile.profile-topic {
+	height: 50px;
+	width: 50px;
+	border-radius : 10px;
+    -webkit-border-radius : 10px;
+    -moz-border-radius : 10px;
+}
+.profile.profile-comment {
+	height: 30px;
+	width: 30px;
+	border-radius : 6px;
+    -webkit-border-radius : 6px;
+    -moz-border-radius : 6px;
+}
+.content.content-topic{
+	height: 60px;
+}
+.content.content-comment{
+	height: 30px;
+}
+
+.content{
+	word-wrap: break-word;
+}
+.comment-header{
+	display: none;
+	overflow: hidden;
+}
+
+.topic {
+	cursor: pointer;
+}
+.profile, .content {
+}
+
+.topic-name{
+	font-family: 'Arimo', sans-serif, "微軟正黑體";
+	font-size: 14px;
+	font-weight: 500;
+	display: inline-block;
+}
+.time {
+	margin-left: 5px;
+	display: inline-block;
+	font-size: 10px;
+	font-weight: 400;
+	color: #aaa;
+}
+
+/* for comment */
+.unfold{
+	margin: 8px 0 8px 0;
+	border-radius : 5px;
+}
+
+.fold-button{
+	font-size: 10px;
+	color: #2d99c1;
+}
+.fold-button:hover, .fold-button:hover > .to-show,  .fold-button:hover > .to-hide{
+	text-decoration:underline;
+}
+.fold-button > .to-hide {
+	display: none;
+}
+
+.to-show, .to-hide {
+	float: left;
+}
+
+#loading {
+	display: none;
+	position: fixed;
+	top: 0;
+	z-index: 100;
+	background-color: rgba(0,0,0,0.2);
+	min-width: 100%;
+	min-height: 100%;
+}
+#loading > img {
+	position: fixed;
+	display: block;
+	top:50%;
+	left: 50%;
+	margin-top: -10px;
+	margin-left: -10px;
+	width: 20px;
+	height: auto;
+}
+
+
+/*  Bootstrap  */
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 0;
+  padding-left: 0;
+}
+input {
+
+}
