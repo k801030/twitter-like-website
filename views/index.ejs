@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="forum">
+<head>
+  <meta charset='utf-8'>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/main.css" />
+   <link href='http://fonts.googleapis.com/css?family=Arimo|Montserrat' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+  <script type="text/javascript" src="js/ui.js"></script>
+  <link href="images/fakelogo.png" rel="SHORTCUT ICON">
+  <title>Twittel</title>
+
+  <meta property="og:title" content="Twittel"/>
+  <meta name="og:description" content="
+        留言、聊天囉！" />
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="images/fakelogo.png"/>
+</head>
+
+<body>
+
+<div class="header navbar-fixed-top">
+  <img class="logo navbar-fixed-top" src="images/fakelogo.png">
+  <button id="logout" class="button-submit ">登出</button>
+</div>
+
+<div class="container" ng-controller="ContentCtrl">
+  <div class="col-sm-3 info">
+    <img class="profile profile-topic" ng-src="https://graph.facebook.com/{{profile.id}}/picture?width=200&height=200"/>
+    <p>
+      {{profile.first_name}}
+      {{profile.last_name}}
+    </p>
+    <div class="col-sm-12 input">
+      <form ng-submit='post_topic(topic)'>
+        <input class="col-sm-offset-1 col-sm-10 input-comment" id="input-topic" ng-model="topic" placeholder="撰寫新貼文...">
+        <button type="submit" class="button-submit">推文</button>
+      </form>
+    </div>
+  </div>
+  
+  <div class="col-sm-7">
+    <div class="col-sm-12 topic" ng-repeat="topic in data" ng-class="{first: $first, last: $last }">
+      <div class="col-sm-12 topic-header">
+        <div class="col-sm-2">
+          <img class="profile profile-topic" ng-src="https://graph.facebook.com/{{topic.Member_ID}}/picture?width=200&height=200"/>
+        </div>
+        <div class="col-sm-10">
+          <div class="name topic-name">{{topic.MEMBER_FIRSTNAME}} {{topic.MEMBER_LASTNAME}}</div>
+          <div class="time">{{formattedTime(topic.Topic_PostTime)}}</div>
+          <div class="content content-topic">{{topic.Topic_Content}}</div>
+          <div class="fold-button">
+            <div class="to-show">展開留言</div>
+            <div class="to-hide">隱藏留言</div>
+            ({{topic.comments.length||0}})
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-sm-12 comment-header">
+        <div class="col-sm-12 input">
+          <div class="col-sm-2">
+            <img class="profile profile-comment" ng-src="https://graph.facebook.com/{{profile.id}}/picture?width=200&height=200"/>
+          </div>
+          <form class="col-sm-10" ng-submit='post_comment(topic.Topic_ID,comment[topic.Topic_ID])'>
+            <input class="col-sm-11 input-comment" ng-model="comment[topic.Topic_ID]" placeholder="回覆貼文"><button type="submit" class="button-submit">推文</button>
+          </form>
+        </div>
+        <div class="comment col-sm-12" ng-repeat="comment in topic.comments">
+          <div class="col-sm-2">
+            <img class="profile profile-comment" ng-src="https://graph.facebook.com/{{comment.Member_ID}}/picture?width=200&height=200"/>
+          </div>
+          <div class="col-sm-10">
+            <div class="name topic-name">{{comment.MEMBER_FIRSTNAME}} {{comment.MEMBER_LASTNAME}}</div>
+            <div class="time">{{formattedTime(comment.Comment_PostTime)}}</div>
+            <div class="content content-comment">{{comment.Comment_Content}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="loading"><img src="images/loader.gif"></div>
+
+<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript">
+  check_index('login');
+</script>
+</body>
+</html>

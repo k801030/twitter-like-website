@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <link rel="stylesheet" href="../css/bootstrap.css">
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+  <style>
+    .btn {
+      position: absolute;
+      display: block;
+      top: 50%;
+      left: 50%;
+      margin-top: -25px;
+      margin-left: -128px; 
+      height: 50px;
+    }
+    #bg {
+      position: absolute;
+      min-width: 100%;
+      min-height: 100%;
+      
+      background: url('../images/bg.jpg') no-repeat center center scroll;
+      background-size: cover;
+    }
+  </style>
+  <link href="../images/fakelogo.png" rel="SHORTCUT ICON">
+  <title>Twittel</title>
+</head>
+
+<body>
+  <div id="bg"></div>
+  <div class="btn">
+    <fb:login-button scope="public_profile" onlogin="checkLoginState();">Login with Facebook
+    </fb:login-button>
+  </div>
+  
+  <div id="fb-root"></div>
+<script>
+var serverUrl = 'http://localhost:3000/';
+
+
+
+// facebook API
+window.fbAsyncInit = function() {
+  FB.init({
+  appId      : '261669747290375',
+  cookie     : true,  // enable cookies to allow the server to access 
+                      // the session
+  xfbml      : true,  // parse social plugins on this page
+  version    : 'v2.1' // use version 2.1
+  });
+
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus(). 
+
+};
+
+// Load the SDK asynchronously
+  (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+</script>
+<script type="text/javascript" src="../js/login.js"></script>
+<script type="text/javascript">
+  check_login('../');
+</script>
+</body>
+</html>
