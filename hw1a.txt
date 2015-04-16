@@ -1,2 +1,0 @@
-It takes time to understand the version control system and I usually be lazy to do version control since it takes more time to do when beginning.
-
