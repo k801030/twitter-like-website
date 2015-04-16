@@ -111,6 +111,8 @@ function sessionChecking(myid){
 			if(data.length != 0){
 				profile.init(data.Member_ID, data.MEMBER_FIRSTNAME, data.MEMBER_LASTNAME);
 				setsessionStorage(profile,redirect(""));
+			}else {
+
 			}
 			//var obj = JSON.parse(data);
 			//console.log('post sucessful:'+obj.timestamp);
@@ -119,11 +121,11 @@ function sessionChecking(myid){
 }
 
 function check_login(){
-	if((myid = sessionStorage.getItem('profile.id'))!=null){
+	if((myid = sessionStorage.getItem('profile.id'))==null){
+		return false;
+	}else {
 		sessionChecking(myid);
 		return true;
-	}else {
-		return false;
 	}
 }
 
@@ -136,7 +138,7 @@ function check_index(url){
 }
 
 function logout(){
-	sessionStorage.setItem('profile.id',null);
+	sessionStorage.removeItem('profile.id');
 	redirect('login');
 }
 $('#logout').click(function(){
