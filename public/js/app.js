@@ -14,6 +14,17 @@
 		$scope.data = [];
 		$scope.topic = '';
 		$scope.comment = [];
+
+		$scope.login_modal = function() {
+    		  if(check_login()){
+			    $('#logout').show();
+			    return true;
+			  }else{
+			    $('#myModal').modal();
+			    return false;
+			  }
+		}
+
 		$scope.post_topic = function(topic){
 		loading.start();
 			if($scope.topic){

@@ -23,10 +23,32 @@
 
 <div class="header navbar-fixed-top">
   <img class="logo navbar-fixed-top" src="images/fakelogo.png">
-  <button id="logout" class="button-submit ">登出</button>
+  <button id="logout" class="button-submit my-hide">登出</button>
 </div>
 
 <div class="container" ng-controller="ContentCtrl">
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">您尚未登入</h4>
+      </div>
+      <div class="modal-body">
+        <div class="btn">
+          <fb:login-button scope="public_profile" onlogin="checkLoginState();">登入Facebook
+          </fb:login-button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <div class="col-sm-3 info">
     <img class="profile profile-topic" ng-src="https://graph.facebook.com/{{profile.id}}/picture?width=200&height=200"/>
     <p>
@@ -34,7 +56,7 @@
       {{profile.last_name}}
     </p>
     <div class="col-sm-12 input">
-      <form ng-submit='post_topic(topic)'>
+      <form ng-submit='login_modal() && post_topic(topic)'>
         <input class="col-sm-offset-1 col-sm-10 input-comment" id="input-topic" ng-model="topic" placeholder="撰寫新貼文...">
         <button type="submit" class="button-submit">推文</button>
       </form>
@@ -64,7 +86,7 @@
           <div class="col-sm-2">
             <img class="profile profile-comment" ng-src="https://graph.facebook.com/{{profile.id}}/picture?width=200&height=200"/>
           </div>
-          <form class="col-sm-10" ng-submit='post_comment(topic.Topic_ID,comment[topic.Topic_ID])'>
+          <form class="col-sm-10" ng-submit='login_modal() && post_comment(topic.Topic_ID,comment[topic.Topic_ID])'>
             <input class="col-sm-11 input-comment" ng-model="comment[topic.Topic_ID]" placeholder="回覆貼文"><button type="submit" class="button-submit">推文</button>
           </form>
         </div>
@@ -86,9 +108,40 @@
 
 <div id="loading"><img src="images/loader.gif"></div>
 
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript">
-  check_index('login');
+// facebook API
+window.fbAsyncInit = function() {
+  FB.init({
+  appId      : '261669747290375',
+  cookie     : true,  // enable cookies to allow the server to access 
+                      // the session
+  xfbml      : true,  // parse social plugins on this page
+  version    : 'v2.1' // use version 2.1
+  });
+
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus(). 
+
+};
+
+// Load the SDK asynchronously
+  (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+
+  if(check_login()){
+    $('#logout').show();
+  }else{
+    $('#logout').hide();
+  }
 </script>
 </body>
 </html>

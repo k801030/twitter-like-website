@@ -95,7 +95,7 @@ function redirect(url){
 }
 
 
-function sessionChecking(myid,url){
+function sessionChecking(myid){
 
 	$.ajax({
 		url: serverUrl+'checklogin',
@@ -110,7 +110,7 @@ function sessionChecking(myid,url){
 		success: function(data){
 			if(data.length != 0){
 				profile.init(data.Member_ID, data.MEMBER_FIRSTNAME, data.MEMBER_LASTNAME);
-				setsessionStorage(profile,redirect(url));
+				setsessionStorage(profile,redirect(""));
 			}
 			//var obj = JSON.parse(data);
 			//console.log('post sucessful:'+obj.timestamp);
@@ -118,9 +118,12 @@ function sessionChecking(myid,url){
 	});
 }
 
-function check_login(url){
+function check_login(){
 	if((myid = sessionStorage.getItem('profile.id'))!=null){
-		sessionChecking(myid,url);
+		sessionChecking(myid);
+		return true;
+	}else {
+		return false;
 	}
 }
 

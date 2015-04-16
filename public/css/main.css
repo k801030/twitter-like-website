@@ -5,6 +5,11 @@ body {
 input {
 	font-size: 12px;
 }
+
+.my-hide {
+	display: none;
+}
+
 .header{
 	height: 42px;
 	background: #fff;
