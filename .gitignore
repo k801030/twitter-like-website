@@ -1,1 +1,5 @@
 .DS__Store
+.*
+node_modules/*
+bin/*
+.gitignore
